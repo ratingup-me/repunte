@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RatingUP — Más estrellas en Google. Más clientes en su negocio.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azul-profundo: #042C53;
+    --azul-medio: #185FA5;
+    --azul-claro: #378ADD;
+    --azul-suave: #B5D4F4;
+    --azul-fondo: #E6F1FB;
+    --blanco: #ffffff;
+    --gris-texto: #5F5E5A;
+    --gris-suave: #F7F9FC;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--blanco);
+    color: var(--azul-profundo);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* BANNER */
+  .banner {
+    background: var(--azul-profundo);
+    color: var(--blanco);
+    text-align: center;
+    padding: 12px 24px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .banner span {
+    color: var(--azul-suave);
+    font-weight: 300;
+    letter-spacing: 2px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  /* NAV */
+  nav {
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid var(--azul-suave);
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 12px; }
+  .logo-icon { width: 40px; height: 40px; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-name { font-size: 20px; font-weight: 800; color: var(--azul-profundo); letter-spacing: -0.5px; }
+  .logo-name span { color: var(--azul-claro); }
+  .logo-tagline { font-size: 8px; font-weight: 300; color: var(--azul-medio); letter-spacing: 2.5px; margin-top: 3px; }
+  .nav-badge {
+    background: var(--azul-fondo);
+    color: var(--azul-medio);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 0.5px solid var(--azul-suave);
+  }
+
+  /* HERO */
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #E6F1FB 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--azul-fondo);
+    border: 0.5px solid var(--azul-suave);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--azul-medio);
+    margin-bottom: 32px;
+    letter-spacing: 0.3px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--azul-claro);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    color: var(--azul-profundo);
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--azul-claro); }
+
+  .hero p {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--gris-texto);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .hero-result {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #EAF3DE;
+    border: 0.5px solid #97C459;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #3B6D11;
+    margin-bottom: 48px;
+  }
+
+  /* ESTRELLAS ANIMADAS */
+  .stars-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 48px;
+  }
+  .star {
+    font-size: 28px;
+    color: #D3D1C7;
+    transition: color 0.3s;
+  }
+  .star.filled { color: #EF9F27; }
+  .star.rising { color: var(--azul-claro); }
+  .arrow-up {
+    font-size: 22px;
+    color: var(--azul-claro);
+    font-weight: 800;
+    margin-left: 8px;
+  }
+
+  /* FORMULARIO */
+  .form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 440px;
+  }
+  .input-row {
+    display: flex;
+    width: 100%;
+    border: 1.5px solid var(--azul-suave);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--blanco);
+    transition: border-color 0.2s;
+  }
+  .input-row:focus-within { border-color: var(--azul-claro); }
+  .input-row input {
+    flex: 1;
+    padding: 14px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--azul-profundo);
+    border: none;
+    outline: none;
+    background: transparent;
+  }
+  .input-row input::placeholder { color: #B4B2A9; }
+  .btn-primary {
+    padding: 14px 24px;
+    background: var(--azul-profundo);
+    color: var(--blanco);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--azul-medio); }
+  .form-note { font-size: 12px; color: #B4B2A9; font-weight: 300; }
+
+  /* SOCIAL PROOF */
+  .social-proof {
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    border-top: 0.5px solid var(--azul-suave);
+    border-bottom: 0.5px solid var(--azul-suave);
+    background: var(--gris-suave);
+  }
+  .proof-item { text-align: center; }
+  .proof-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--azul-profundo);
+    letter-spacing: -1px;
+  }
+  .proof-number span { color: var(--azul-claro); }
+  .proof-label { font-size: 12px; color: var(--gris-texto); margin-top: 4px; font-weight: 400; }
+
+  /* FEATURES */
+  .features {
+    background: var(--blanco);
+    padding: 80px 48px;
+  }
+  .features-inner { max-width: 960px; margin: 0 auto; }
+  .features-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--azul-claro);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .features h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--azul-profundo);
+    text-align: center;
+    margin-bottom: 56px;
+    letter-spacing: -0.8px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    background: var(--gris-suave);
+    border: 0.5px solid var(--azul-suave);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--azul-fondo);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .feature-icon svg {
+    width: 22px; height: 22px;
+    stroke: var(--azul-medio);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .feature-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--azul-profundo);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--gris-texto);
+    line-height: 1.65;
+  }
+
+  /* CTA FINAL */
+  .cta-final {
+    background: var(--azul-profundo);
+    padding: 80px 48px;
+    text-align: center;
+  }
+  .cta-final h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--blanco);
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .cta-final h2 span { color: var(--azul-suave); }
+  .cta-final p {
+    font-size: 16px;
+    color: var(--azul-suave);
+    font-weight: 300;
+    margin-bottom: 40px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .cta-form {
+    display: flex;
+    max-width: 440px;
+    margin: 0 auto;
+    border: 1.5px solid #185FA5;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cta-form input {
+    flex: 1;
+    padding: 14px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--blanco);
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.08);
+  }
+  .cta-form input::placeholder { color: rgba(255,255,255,0.35); }
+  .cta-form button {
+    padding: 14px 24px;
+    background: var(--azul-claro);
+    color: var(--blanco);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .cta-form button:hover { background: #185FA5; }
+  .cta-note { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 14px; font-weight: 300; }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 48px;
+    border-top: 0.5px solid var(--azul-suave);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo { font-size: 15px; font-weight: 800; color: var(--azul-profundo); letter-spacing: -0.3px; }
+  .footer-logo span { color: var(--azul-claro); }
+  footer p { font-size: 12px; color: #B4B2A9; font-weight: 300; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 20px 24px; }
+    .features, .cta-final { padding: 60px 24px; }
+    footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+    .input-row, .cta-form { flex-direction: column; border-radius: 12px; }
+    .btn-primary, .cta-form button { border-radius: 0 0 10px 10px; padding: 14px; }
+    .social-proof { gap: 28px; padding: 32px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-eyebrow::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#85B7EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Plataforma en desarrollo &nbsp;<span>· Próximamente disponible ·</span>&nbsp; Registrese para ser de los primeros en acceder
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-wrap">
+    <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="40" rx="10" fill="#042C53"/>
+      <path d="M20 6 L30 11 L30 22 Q30 31 20 34 Q10 31 10 22 L10 11 Z" fill="#378ADD"/>
+      <path d="M20 9 L27 13 L27 22 Q27 29 20 31 Q13 29 13 22 L13 13 Z" fill="#042C53"/>
+      <polygon points="20,13 21.8,18.5 27.5,18.5 23,21.8 24.8,27.3 20,24 15.2,27.3 17,21.8 12.5,18.5 18.2,18.5" fill="#378ADD"/>
+    </svg>
+    <div class="logo-text">
+      <div class="logo-name">Rating<span>UP</span></div>
+      <div class="logo-tagline">REPUTACIÓN INTELIGENTE</div>
+    </div>
+  </div>
+  <div class="nav-badge">Próximamente</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">En construcción — lanzamiento próximo</div>
+
+  <h1>Más estrellas en Google.<br><span>Más clientes en su negocio.</span></h1>
+
+  <p>RatingUP sube el rating de Google de su negocio en 60 días — consigue más reseñas positivas y gestiona las negativas automáticamente con inteligencia artificial.</p>
+
+  <div class="hero-result">
+    ✦ Resultado comprobado: de 3,2 a 4,5 estrellas en 60 días
+  </div>
+
+  <div class="stars-row">
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star rising">★</span>
+    <span class="arrow-up">↑</span>
+  </div>
+
+  <form class="form-wrap" action="https://formspree.io/f/xbdvoyne" method="POST">
+    <div class="input-row">
+      <input type="email" name="email" placeholder="Ingrese su correo electrónico" required />
+      <button type="submit" class="btn-primary">Quiero acceso anticipado</button>
+    </div>
+    <p class="form-note">Sin spam. Solo le avisamos cuando RatingUP esté disponible.</p>
+  </form>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+  <div class="proof-item">
+    <div class="proof-number">90<span>%</span></div>
+    <div class="proof-label">de los clientes revisa Google antes de elegir un negocio</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">60<span> días</span></div>
+    <div class="proof-label">promedio para subir de nota con el sistema RatingUP</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-number">$7.900<span> ARS</span></div>
+    <div class="proof-label">primer mes · solo primeros 100 negocios · después $9.900 ARS</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-inner">
+    <div class="features-label">Cómo funciona</div>
+    <h2>Todo lo que necesita para subir su rating en Google</h2>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        </div>
+        <h3>Conseguimos más reseñas positivas</h3>
+        <p>Le enviamos un mensaje a sus clientes por WhatsApp o email pidiéndoles que dejen su opinión en Google. Más reseñas positivas = mejor rating = más clientes nuevos.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <h3>Alertas instantáneas por WhatsApp</h3>
+        <p>Cuando llega una reseña nueva — especialmente las negativas — le avisamos al instante por WhatsApp con el texto de la reseña y la respuesta lista para publicar.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Respuestas profesionales con IA</h3>
+        <p>La inteligencia artificial genera una respuesta personalizada para cada reseña. Usted la aprueba con un clic y se publica directo en Google en segundos.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Dashboard de reputación mensual</h3>
+        <p>Vea la evolución de su rating, qué temas mencionan sus clientes y cuántas reseñas necesita para pasar a la siguiente estrella. Todo en un panel simple.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Análisis de patrones y problemas</h3>
+        <p>Detectamos qué temas se repiten en las quejas — tiempo de espera, atención, precio — para que pueda tomar decisiones operativas basadas en datos reales.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Resultados en 60 días</h3>
+        <p>El sistema trabaja solo mientras usted atiende su negocio. En 60 días verá la diferencia en su nota de Google y en la cantidad de clientes nuevos que llegan por Maps.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Su negocio merece más<br><span>estrellas en Google.</span></h2>
+  <p>Regístrese ahora y acceda al precio especial de lanzamiento: primer mes a $7.900 ARS. Solo para los primeros 100 negocios. Después $9.900 ARS/mes.</p>
+  <form class="cta-form" action="https://formspree.io/f/xbdvoyne" method="POST">
+    <input type="email" name="email" placeholder="su@email.com" required />
+    <button type="submit">Quiero acceso anticipado</button>
+  </form>
+  <p class="cta-note">Sin compromiso. Sin tarjeta de crédito. Solo le avisamos cuando esté listo.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Rating<span>UP</span></div>
+  <p>© 2026 RatingUP · ratingup.com.ar · Todos los derechos reservados</p>
+</footer>
+
+</body>
+</html>
