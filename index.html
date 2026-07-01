@@ -1,638 +1,443 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RatingUP — Más estrellas en Google. Más clientes en su negocio.</title>
+<title>Repunte — Más estrellas en Google. Más clientes en su negocio.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --bg: #eef3f3;
+    --surface: #ffffff;
+    --ink: #1b2e35;
+    --ink-soft: #51626a;
+    --ink-faint: #8b9aa0;
+    --teal: #2baf8d;
+    --teal-dim: #e3f5ef;
+    --coral: #ff6f4d;
+    --coral-dim: #ffe9e2;
+    --mustard: #f0a93e;
+    --line: rgba(27,46,53,0.10);
+    --line-strong: rgba(27,46,53,0.16);
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', sans-serif; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--mustard); color: var(--ink); }
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 4px; }
 
-  :root {
-    --azul-profundo: #042C53;
-    --azul-medio: #185FA5;
-    --azul-claro: #378ADD;
-    --azul-suave: #B5D4F4;
-    --azul-fondo: #E6F1FB;
-    --blanco: #ffffff;
-    --gris-texto: #5F5E5A;
-    --gris-suave: #F7F9FC;
-  }
+  .display{ font-family: 'Baloo 2', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 28px; }
 
-  html { scroll-behavior: smooth; }
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(238,243,243,0.9); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav{
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px; max-width: 1120px; margin: 0 auto;
+  }
+  .logo{ display: flex; align-items: center; gap: 9px; font-family:'Baloo 2',sans-serif; font-weight: 800; font-size: 1.32rem; }
+  .logo-mark{ width: 26px; height: 26px; flex-shrink: 0; }
+  .logo-badge{
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 8px 18px 8px 12px;
+    border-radius: 999px;
+    background: #fff;
+    border: 2px solid var(--coral);
+  }
+  .logo-badge .word{
+    font-family: 'Baloo 2', sans-serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .nav-cta{
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+    color: #fff; background: var(--coral); padding: 10px 19px;
+    border-radius: 999px; text-decoration: none; white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+  .nav-cta:hover{ transform: translateY(-1px); }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--blanco);
-    color: var(--azul-profundo);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  .hero{ padding: 76px 0 0; }
+  .hero-inner{ display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; padding-bottom: 64px; }
 
-  /* BANNER */
-  .banner {
-    background: linear-gradient(90deg, #031f3b 0%, #042C53 50%, #031f3b 100%);
-    color: var(--blanco);
-    text-align: center;
-    padding: 11px 24px;
-    font-size: 12.5px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+  .badge{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.8rem; font-weight: 600; color: var(--teal);
+    background: var(--teal-dim); padding: 8px 14px; border-radius: 999px;
+    margin-bottom: 22px;
   }
-  .banner-discount {
-    background: rgba(55,138,221,0.25);
-    border: 0.5px solid rgba(55,138,221,0.5);
-    color: #7EC8F8;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
+  .badge::before{ content:''; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
 
-  /* NAV */
-  nav {
-    padding: 22px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 0.5px solid var(--azul-suave);
-  }
-  .logo-wrap { display: flex; align-items: center; gap: 12px; }
-  .logo-icon { width: 40px; height: 40px; }
-  .logo-text { display: flex; flex-direction: column; line-height: 1; }
-  .logo-name { font-size: 20px; font-weight: 800; color: var(--azul-profundo); letter-spacing: -0.5px; }
-  .logo-name span { color: var(--azul-claro); }
-  .logo-tagline { font-size: 8px; font-weight: 300; color: var(--azul-medio); letter-spacing: 2.5px; margin-top: 3px; }
-  .nav-badge {
-    background: var(--azul-fondo);
-    color: var(--azul-medio);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 0.5px solid var(--azul-suave);
-  }
+  h1{ font-size: clamp(2.1rem, 4.2vw, 3.2rem); line-height: 1.08; margin-bottom: 20px; }
+  h1 .accent{ color: var(--coral); }
+  .hero-sub{ font-size: 1.05rem; color: var(--ink-soft); max-width: 470px; margin-bottom: 30px; }
+  .hero-sub b{ color: var(--ink); font-weight: 600; }
 
-  /* HERO */
-  .hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 88px 24px 72px;
-    position: relative;
-    overflow: hidden;
+  .proof-line{
+    display:flex; align-items:center; gap:8px; font-size: 0.88rem;
+    color: var(--ink-faint); margin-bottom: 30px;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -120px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, #deeef9 0%, transparent 68%);
-    pointer-events: none;
-    z-index: 0;
+  .proof-line b{ color: var(--coral); }
+  .star-base{ fill: #c7cdd0; }
+  .star-fill{ fill: var(--coral); }
+  .s1, .s2, .s3, .s4{ opacity: 1; }
+  .s5{
+    opacity: 0;
+    animation: starSlowFill 3.2s ease-in-out infinite alternate;
   }
-  .hero > * { position: relative; z-index: 1; }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--azul-fondo);
-    border: 0.5px solid var(--azul-suave);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--azul-medio);
-    margin-bottom: 32px;
-    letter-spacing: 0.3px;
+  @keyframes starSlowFill{
+    from{ opacity: 0; }
+    to{ opacity: 1; }
   }
-  .hero-eyebrow::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #3dba6e;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.4); }
+  @media (prefers-reduced-motion: reduce){
+    .s5{ animation: none; opacity: 1; }
   }
 
-  .hero h1 {
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -2px;
-    color: var(--azul-profundo);
-    max-width: 760px;
-    margin-bottom: 24px;
+  .signup{ display:flex; gap:10px; max-width: 440px; margin-bottom: 12px; }
+  .signup input{
+    flex:1; background: var(--surface); border: 1px solid var(--line-strong);
+    color: var(--ink); padding: 14px 18px; border-radius: 999px; font-size: 0.95rem;
   }
-  .hero h1 span { color: var(--azul-claro); }
+  .signup input::placeholder{ color: var(--ink-faint); }
+  .signup input:focus{ outline: none; border-color: var(--teal); }
+  .btn-primary{
+    background: var(--coral); color: #fff; border: none;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem;
+    padding: 14px 24px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-1px); }
+  .signup-note{ font-size: 0.8rem; color: var(--ink-faint); }
+  .signup-note b{ color: var(--teal); }
 
-  .hero p {
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--gris-texto);
-    max-width: 520px;
-    line-height: 1.75;
-    margin-bottom: 20px;
+  /* ---------- PHONE MOCKUP (signature element) ---------- */
+  .phone{
+    background: #15201f; border-radius: 34px; padding: 12px;
+    max-width: 320px; margin: 0 auto; box-shadow: 0 18px 40px rgba(27,46,53,0.18);
   }
+  .phone-screen{ background: #e9efe9; border-radius: 24px; overflow: hidden; }
+  .chat-head{
+    background: var(--ink); color: #fff; padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600;
+  }
+  .chat-head .av{
+    width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center; font-size: 0.8rem;
+  }
+  .chat-head .sub{ font-size: 0.7rem; font-weight: 400; opacity: 0.85; }
+  .chat-body{ padding: 16px 12px; min-height: 320px; display: flex; flex-direction: column; gap: 10px; }
+  .bubble{
+    max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 0.78rem;
+    line-height: 1.45; opacity: 0; animation: bubbleIn 0.5s ease forwards;
+  }
+  .bubble.in{ background: #fff; border-bottom-left-radius: 4px; align-self: flex-start; color: var(--ink); }
+  .bubble.out{ background: var(--coral-dim); border-bottom-right-radius: 4px; align-self: flex-end; color: var(--ink); }
+  .bubble .tag{ display:block; font-family:'IBM Plex Mono',monospace; font-size: 0.62rem; color: var(--ink-faint); margin-bottom: 4px; }
+  .bubble .stars{ color: var(--mustard); }
+  .bubble.b1{ animation-delay: 0.3s; }
+  .bubble.b2{ animation-delay: 1.1s; }
+  .bubble.b3{ animation-delay: 1.9s; }
+  .bubble.b4{ animation-delay: 2.5s; }
+  @keyframes bubbleIn{
+    from{ opacity:0; transform: translateY(8px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bubble{ animation: none; opacity: 1; }
+  }
+  .quick-actions{ display:flex; gap:8px; align-self: flex-start; margin-top: -2px; }
+  .qa-btn{
+    font-size: 0.7rem; font-weight: 600; padding: 6px 11px; border-radius: 999px;
+    border: 1px solid var(--coral); color: var(--coral); background: #fff;
+  }
+  .qa-btn.primary{ background: var(--coral); color: #fff; border-color: var(--coral); }
 
-  .hero-result {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #EAF3DE;
-    border: 0.5px solid #97C459;
-    border-radius: 20px;
-    padding: 7px 16px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: #3B6D11;
-    margin-bottom: 40px;
+  /* ---------- STATS STRIP ---------- */
+  .stats-strip{
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
   }
-  .hero-result svg { flex-shrink: 0; }
+  .stats-strip .item{ font-size: 0.86rem; color: var(--ink-soft); }
+  .stats-strip .item b{ color: var(--coral); }
 
-  /* ESTRELLAS */
-  .stars-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 44px;
+  section{ position: relative; }
+  .section-pad{ padding: 92px 0; }
+  .eyebrow{
+    font-size: 0.82rem; font-weight: 600; color: var(--coral); margin-bottom: 14px;
   }
-  .stars-row svg {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-  }
-  .star-animated {
-    animation: starColorFill 3.5s ease-in-out infinite;
-  }
-  @keyframes starColorFill {
-    0%        { fill: #D3D1C7; }
-    45%       { fill: #EF9F27; }
-    72%       { fill: #EF9F27; }
-    88%       { fill: #D3D1C7; }
-    100%      { fill: #D3D1C7; }
-  }
+  h2{ font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.16; max-width: 620px; margin-bottom: 16px; }
+  .section-sub{ color: var(--ink-soft); max-width: 540px; font-size: 1rem; margin-bottom: 52px; }
 
-  /* FORMULARIO */
-  .form-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    max-width: 460px;
+  /* ---------- PROCESS ---------- */
+  .process{ display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .process-card{
+    background: var(--surface); border-radius: 20px; padding: 28px 24px;
+    border: 1px solid var(--line);
   }
-  .input-row {
-    display: flex;
-    width: 100%;
-    border: 1.5px solid var(--azul-suave);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--blanco);
-    transition: border-color 0.2s, box-shadow 0.2s;
+  .process-card .step-icon{
+    width: 42px; height: 42px; border-radius: 12px; background: var(--teal-dim);
+    color: var(--teal); display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2',sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 16px;
   }
-  .input-row:focus-within {
-    border-color: var(--azul-claro);
-    box-shadow: 0 0 0 3px rgba(55,138,221,0.1);
-  }
-  .input-row input {
-    flex: 1;
-    padding: 14px 18px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    color: var(--azul-profundo);
-    border: none;
-    outline: none;
-    background: transparent;
-  }
-  .input-row input::placeholder { color: #C0BEBC; }
-  .btn-primary {
-    padding: 14px 22px;
-    background: var(--azul-profundo);
-    color: var(--blanco);
-    font-family: 'Inter', sans-serif;
-    font-size: 13.5px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-    letter-spacing: 0.1px;
-  }
-  .btn-primary:hover { background: var(--azul-medio); }
-  .form-note {
-    font-size: 12px;
-    color: #B4B2A9;
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .form-note-badge {
-    background: var(--azul-profundo);
-    color: #7EC8F8;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    padding: 3px 9px;
-    border-radius: 6px;
-    white-space: nowrap;
-    border: 0.5px solid rgba(55,138,221,0.35);
-  }
-  .form-note-text {
-    color: var(--gris-texto);
-    font-size: 12px;
-    font-weight: 400;
-  }
+  .process-card h3{ font-family:'Baloo 2',sans-serif; font-weight: 700; font-size: 1.08rem; margin-bottom: 8px; }
+  .process-card p{ color: var(--ink-soft); font-size: 0.89rem; }
 
-  /* SOCIAL PROOF */
-  .social-proof {
-    padding: 40px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 56px;
-    flex-wrap: wrap;
-    border-top: 0.5px solid var(--azul-suave);
-    border-bottom: 0.5px solid var(--azul-suave);
-    background: var(--gris-suave);
+  /* ---------- FEATURE GRID ---------- */
+  .feature-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .feature-card{
+    background: var(--surface); border-radius: 20px; padding: 26px 24px; border: 1px solid var(--line);
   }
-  .proof-item { text-align: center; }
-  .proof-number {
-    font-size: 30px;
-    font-weight: 800;
-    color: var(--azul-profundo);
-    letter-spacing: -1px;
+  .feature-card .ic{
+    width: 40px; height: 40px; border-radius: 11px; background: var(--coral-dim);
+    color: var(--coral); display:flex; align-items:center; justify-content:center; margin-bottom: 16px;
   }
-  .proof-number span { color: var(--azul-claro); }
-  .proof-label { font-size: 12px; color: var(--gris-texto); margin-top: 4px; font-weight: 400; max-width: 160px; line-height: 1.5; }
-  .proof-divider {
-    width: 0.5px;
-    height: 40px;
-    background: var(--azul-suave);
-  }
+  .feature-card h3{ font-family:'Baloo 2',sans-serif; font-weight: 700; font-size: 1.02rem; margin-bottom: 8px; }
+  .feature-card p{ color: var(--ink-soft); font-size: 0.88rem; }
 
-  /* FEATURES */
-  .features {
-    background: var(--blanco);
-    padding: 88px 48px;
-  }
-  .features-inner { max-width: 960px; margin: 0 auto; }
-  .features-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--azul-claro);
-    margin-bottom: 14px;
-  }
-  .features h2 {
-    font-size: clamp(24px, 3.5vw, 36px);
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: var(--azul-profundo);
-    margin-bottom: 52px;
-    max-width: 560px;
-    line-height: 1.15;
-  }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
-  }
-  .feature-card {
-    padding: 28px;
-    border: 0.5px solid #DDE8F5;
-    border-radius: 16px;
-    background: var(--blanco);
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-  }
-  .feature-card:hover {
-    border-color: var(--azul-suave);
-    box-shadow: 0 6px 24px rgba(4,44,83,0.07);
-    transform: translateY(-2px);
-  }
-  .feature-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--azul-fondo);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-  .feature-icon svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--azul-claro);
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .feature-card h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--azul-profundo);
-    margin-bottom: 8px;
-    letter-spacing: -0.3px;
-  }
-  .feature-card p {
-    font-size: 13.5px;
-    color: var(--gris-texto);
-    line-height: 1.7;
-  }
+  /* ---------- CTA ---------- */
+  .cta-band{ background: var(--ink); color: #fff; }
+  .cta-inner{ text-align:center; max-width: 600px; margin: 0 auto; }
+  .cta-band h2{ color: #fff; max-width: none; margin: 0 auto 14px; }
+  .cta-band .section-sub{ color: rgba(255,255,255,0.68); margin: 0 auto 34px; }
+  .cta-band .eyebrow{ color: var(--mustard); }
+  .signup.center{ margin: 0 auto; }
+  .cta-band .signup input{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff; }
+  .cta-band .signup input::placeholder{ color: rgba(255,255,255,0.45); }
+  .cta-form-wrap{ display:flex; flex-direction: column; align-items:center; gap: 12px; }
+  .cta-band .signup-note{ color: rgba(255,255,255,0.55); }
 
-  /* CTA FINAL */
-  .cta-final {
-    background: var(--azul-profundo);
-    padding: 88px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-final::before {
-    content: '';
-    position: absolute;
-    top: -160px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(55,138,221,0.15) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .cta-final > * { position: relative; z-index: 1; }
-  .cta-final h2 {
-    font-size: clamp(26px, 3.5vw, 36px);
-    font-weight: 800;
-    color: var(--blanco);
-    letter-spacing: -1px;
-    margin-bottom: 14px;
-    line-height: 1.15;
-  }
-  .cta-final h2 span { color: var(--azul-suave); }
-  .cta-final p {
-    font-size: 15px;
-    color: rgba(181,212,244,0.8);
-    font-weight: 300;
-    margin-bottom: 36px;
-    max-width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.75;
-  }
-  .cta-final p strong { color: #fff; font-weight: 600; }
-  .cta-form {
-    display: flex;
-    max-width: 440px;
-    margin: 0 auto;
-    border: 1px solid rgba(55,138,221,0.4);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .cta-form:focus-within {
-    border-color: var(--azul-claro);
-    box-shadow: 0 0 0 3px rgba(55,138,221,0.15);
-  }
-  .cta-form input {
-    flex: 1;
-    padding: 14px 18px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    color: var(--blanco);
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.07);
-  }
-  .cta-form input::placeholder { color: rgba(255,255,255,0.3); }
-  .cta-form button {
-    padding: 14px 22px;
-    background: var(--azul-claro);
-    color: var(--blanco);
-    font-family: 'Inter', sans-serif;
-    font-size: 13.5px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-    letter-spacing: 0.1px;
-  }
-  .cta-form button:hover { background: #185FA5; }
-  .cta-note {
-    font-size: 12px;
-    color: rgba(255,255,255,0.28);
-    margin-top: 16px;
-    font-weight: 300;
-    letter-spacing: 0.2px;
-  }
-  .cta-note strong { color: rgba(125,212,248,0.7); font-weight: 500; }
+  footer{ padding: 30px 0; border-top: 1px solid var(--line); }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+  footer .meta{ font-size: 0.8rem; color: var(--ink-faint); }
 
-  /* FOOTER */
-  footer {
-    padding: 28px 48px;
-    border-top: 0.5px solid var(--azul-suave);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .footer-logo { font-size: 15px; font-weight: 800; color: var(--azul-profundo); letter-spacing: -0.3px; }
-  .footer-logo span { color: var(--azul-claro); }
-  footer p { font-size: 12px; color: #C0BEBC; font-weight: 300; }
+  .reveal{ opacity:0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
 
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    nav { padding: 20px 24px; }
-    .features, .cta-final { padding: 60px 24px; }
-    footer { padding: 24px; flex-direction: column; align-items: flex-start; }
-    .input-row, .cta-form { flex-direction: column; border-radius: 12px; }
-    .btn-primary, .cta-form button { border-radius: 0 0 10px 10px; padding: 14px; }
-    .social-proof { gap: 28px; padding: 32px 24px; }
-    .proof-divider { display: none; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-eyebrow::before, .star.rising { animation: none; }
+  @media (max-width: 880px){
+    .hero-inner{ grid-template-columns: 1fr; }
+    .process{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .signup{ flex-direction: column; }
+    .stats-strip{ gap: 18px; }
+    nav{ padding: 14px 20px; }
   }
 </style>
 </head>
 <body>
 
-<!-- BANNER -->
-<div class="banner">
-  <span class="banner-discount">30% OFF</span>
-  Registrese ahora y reciba un descuento exclusivo en su primer mes cuando lancemos
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="logo-wrap">
-    <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" rx="10" fill="#042C53"/>
-      <path d="M20 6 L30 11 L30 22 Q30 31 20 34 Q10 31 10 22 L10 11 Z" fill="#378ADD"/>
-      <path d="M20 9 L27 13 L27 22 Q27 29 20 31 Q13 29 13 22 L13 13 Z" fill="#042C53"/>
-      <polygon points="20,13 21.8,18.5 27.5,18.5 23,21.8 24.8,27.3 20,24 15.2,27.3 17,21.8 12.5,18.5 18.2,18.5" fill="#378ADD"/>
-    </svg>
-    <div class="logo-text">
-      <div class="logo-name">Rating<span>UP</span></div>
-      <div class="logo-tagline">REPUTACIÓN INTELIGENTE</div>
+<header>
+  <nav>
+    <div class="logo">
+      <div class="logo-badge">
+        <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+          <path d="M16 62L40 36L57 52L84 18" stroke="#ff6f4d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M64 18H84V38" stroke="#ff6f4d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="word">Repunte</span>
+      </div>
     </div>
-  </div>
-  <div class="nav-badge">Próximamente</div>
-</nav>
+    <a href="#signup" class="nav-cta">Acceso anticipado</a>
+  </nav>
+</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-eyebrow">Acceso anticipado disponible</div>
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="badge">REPUTACIÓN INTELIGENTE · PRÓXIMAMENTE</div>
+        <h1 class="display">Más estrellas en Google.<br>Más <span class="accent">clientes</span> en su negocio.</h1>
+        <p class="hero-sub">Cuando llega una reseña nueva, Repunte le avisa por <b>WhatsApp</b> al instante, con una respuesta ya escrita por IA. Usted solo aprueba.</p>
+        <div class="proof-line">
+          <svg width="92" height="17" viewBox="0 0 130 22" aria-label="Rating de ejemplo, casi 5 estrellas">
+            <g class="star-slot">
+              <path class="star-base" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
+              <path class="star-fill s1" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M37 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L37 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s2" d="M37 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L37 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M63 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L63 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s3" d="M63 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L63 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M89 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L89 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s4" d="M89 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L89 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M115 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4-5.7-3.3-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s5" d="M115 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4-5.7-3.3-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+          </svg>
+          <span>Su negocio, cada vez más cerca de las 5 estrellas</span>
+        </div>
 
-  <h1>Más estrellas en Google.<br><span>Más clientes en su negocio.</span></h1>
+        <form id="signup" class="signup" action="https://formspree.io/f/xbdvoyne" method="POST">
+          <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
+          <button type="submit" class="btn-primary">Avíseme cuando esté lista</button>
+        </form>
+        <p class="signup-note"><b>30% OFF</b> primer mes para los primeros 200 negocios · Sin tarjeta</p>
+      </div>
 
-  <p>RatingUP sube el rating de Google de su negocio en 60 días, consigue más reseñas positivas y gestiona las negativas automáticamente con inteligencia artificial.</p>
-
-  <div class="hero-result">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    Resultado comprobado: de 3,2 a 4,5 estrellas en 60 días
-  </div>
-
-  <div class="stars-row">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#EF9F27" stroke="none"/></svg>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#EF9F27" stroke="none"/></svg>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#EF9F27" stroke="none"/></svg>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#EF9F27" stroke="none"/></svg>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <polygon class="star-animated" points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" stroke="none"/>
-    </svg>
-  </div>
-
-  <form class="form-wrap" action="https://formspree.io/f/xbdvoyne" method="POST">
-    <div class="input-row">
-      <input type="email" name="email" placeholder="Ingrese su correo electrónico" required />
-      <button type="submit" class="btn-primary">Avisame cuando esté lista</button>
+      <div class="phone reveal">
+        <div class="phone-screen">
+          <div class="chat-head">
+            <div class="av">R</div>
+            <div>
+              Repunte
+              <div class="sub">Alertas de reputación</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="bubble in b1">
+              <span class="tag">NUEVA RESEÑA · GOOGLE</span>
+              <span class="stars">★★☆☆☆</span> — "La atención tardó bastante hoy, esperé 20 min..."
+            </div>
+            <div class="bubble out b2">
+              <span class="tag">RESPUESTA SUGERIDA POR IA</span>
+              "¡Hola! Gracias por contarnos, lamentamos la demora. Ya estamos reforzando el equipo en hora pico. Esperamos contar con su visita nuevamente 🙌"
+            </div>
+            <div class="quick-actions bubble b3">
+              <span class="qa-btn primary">Aprobar</span>
+              <span class="qa-btn">Editar</span>
+            </div>
+            <div class="bubble in b4">✅ Publicada en Google</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="form-note">
-      <span class="form-note-badge">30% OFF</span>
-      <span class="form-note-text">Precio especial para los primeros 200 negocios</span>
-    </p>
-  </form>
-</section>
+  </section>
 
-<!-- SOCIAL PROOF -->
-<div class="social-proof">
-  <div class="proof-item">
-    <div class="proof-number">90<span>%</span></div>
-    <div class="proof-label">de los clientes revisa Google antes de elegir un negocio</div>
+  <div class="stats-strip">
+    <span class="item"><b>90%</b> revisa Google antes de elegir</span>
+    <span class="item"><b>60 días</b> promedio para subir de estrella</span>
+    <span class="item"><b>$9.900</b> ARS/mes · sin contrato</span>
   </div>
-  <div class="proof-divider"></div>
-  <div class="proof-item">
-    <div class="proof-number">60<span> días</span></div>
-    <div class="proof-label">promedio para subir de nota con el sistema RatingUP</div>
-  </div>
-  <div class="proof-divider"></div>
-  <div class="proof-item">
-    <div class="proof-number">$9.900<span> ARS</span></div>
-    <div class="proof-label">por mes, sin contrato de permanencia</div>
-  </div>
-</div>
 
-<!-- FEATURES -->
-<section class="features">
-  <div class="features-inner">
-    <div class="features-label">Cómo funciona</div>
-    <h2>Todo lo que necesita para subir su rating en Google</h2>
-    <div class="features-grid">
+  <section class="section-pad">
+    <div class="wrap">
+      <div class="eyebrow reveal">Cómo funciona</div>
+      <h2 class="display reveal">Tres pasos. Todo por WhatsApp.</h2>
+      <p class="section-sub reveal">No hay panel que aprender. Si usa WhatsApp, ya sabe usar Repunte.</p>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+      <div class="process reveal">
+        <div class="process-card">
+          <div class="step-icon">1</div>
+          <h3>Le damos un QR</h3>
+          <p>Lo pega en el mostrador, la mesa o el ticket. Lleva directo a la pantalla de reseña en Google, sin que el cliente tenga que buscar nada.</p>
         </div>
-        <h3>Conseguimos más reseñas positivas</h3>
-        <p>Le enviamos un mensaje a sus clientes por WhatsApp o email pidiéndoles que dejen su opinión en Google. Más reseñas positivas = mejor rating = más clientes nuevos.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <div class="process-card">
+          <div class="step-icon">2</div>
+          <h3>Le avisamos al instante</h3>
+          <p>Cuando llega una reseña nueva, le mandamos un WhatsApp con el texto y una respuesta ya redactada por IA.</p>
         </div>
-        <h3>Alertas instantáneas por WhatsApp</h3>
-        <p>Cuando llega una reseña nueva, especialmente las negativas, le avisamos al instante por WhatsApp con el texto de la reseña y la respuesta lista para publicar.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="process-card">
+          <div class="step-icon">3</div>
+          <h3>Usted aprueba</h3>
+          <p>Toque "Aprobar" o edite la respuesta. Se publica directo en su ficha de Google, sin entrar a ningún lado.</p>
         </div>
-        <h3>Respuestas profesionales con IA</h3>
-        <p>La inteligencia artificial genera una respuesta personalizada para cada reseña. Usted la aprueba con un clic y se publica directo en Google en segundos.</p>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        </div>
-        <h3>Dashboard de reputación mensual</h3>
-        <p>Vea la evolución de su rating, qué temas mencionan sus clientes y cuántas reseñas necesita para pasar a la siguiente estrella. Todo en un panel simple.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3>Análisis de patrones y problemas</h3>
-        <p>Detectamos qué temas se repiten en las quejas, tiempo de espera, atención, precio, para que pueda tomar decisiones operativas basadas en datos reales.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <h3>Resultados en 60 días</h3>
-        <p>El sistema trabaja solo mientras usted atiende su negocio. En 60 días verá la diferencia en su nota de Google y en la cantidad de clientes nuevos que llegan por Maps.</p>
-      </div>
-
+      <p class="section-sub" style="margin-top:28px; margin-bottom:0; font-size:0.88rem;">¿Ya tiene el WhatsApp de sus clientes porque vende por ahí? Podemos automatizar también el envío del pedido de reseña, siempre con su consentimiento previo.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final">
-  <h2>Su negocio merece más<br><span>estrellas en Google.</span></h2>
-  <p>Regístrese ahora y le avisamos cuando RatingUP esté disponible. Los que se registren hoy reciben <strong>30% de descuento en el primer mes</strong>. $9.900 ARS/mes, sin contrato de permanencia.</p>
-  <form class="cta-form" action="https://formspree.io/f/xbdvoyne" method="POST">
-    <input type="email" name="email" placeholder="su@email.com" required />
-    <button type="submit">Avisame cuando esté lista</button>
-  </form>
-  <p class="cta-note"><strong>30% off el primer mes</strong> &nbsp;·&nbsp; Sin compromiso &nbsp;·&nbsp; Sin tarjeta de crédito</p>
-</section>
+  <section class="section-pad" style="padding-top:0;">
+    <div class="wrap">
+      <div class="eyebrow reveal">Además, todos los meses</div>
+      <h2 class="display reveal">Un resumen que también le llega por WhatsApp.</h2>
+      <p class="section-sub reveal">No es solo conseguir reseñas. Es entender qué dicen sus clientes.</p>
 
-<!-- FOOTER -->
+      <div class="feature-grid reveal">
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 10L13.5 14L21 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Resumen mensual</h3>
+          <p>Vea cómo evolucionó su rating y cuántas reseñas le faltan para subir de estrella.</p>
+        </div>
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6V12C4 17 7.5 21 12 22C16.5 21 20 17 20 12V6L12 2Z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <h3>Detección de patrones</h3>
+          <p>Identificamos qué temas se repiten en las quejas para que decida con datos reales.</p>
+        </div>
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7V12L15 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Resultados en 60 días</h3>
+          <p>El sistema trabaja solo. En dos meses verá la diferencia en su nota y en sus clientes nuevos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band section-pad">
+    <div class="wrap cta-inner">
+      <div class="eyebrow reveal">Acceso anticipado</div>
+      <h2 class="display reveal">Su negocio merece repuntar en Google.</h2>
+      <p class="section-sub reveal">Regístrese ahora y le avisamos en cuanto Repunte esté disponible. Los primeros 200 negocios reciben 30% de descuento en el primer mes.</p>
+      <div class="cta-form-wrap reveal">
+        <form class="signup center" action="https://formspree.io/f/xbdvoyne" method="POST">
+          <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
+          <button type="submit" class="btn-primary">Avíseme cuando esté lista</button>
+        </form>
+        <p class="signup-note"><b>30% off</b> el primer mes · Sin compromiso · Sin tarjeta de crédito</p>
+      </div>
+    </div>
+  </section>
+</main>
+
 <footer>
-  <div class="footer-logo">Rating<span>UP</span></div>
-  <p>© 2026 RatingUP &nbsp;·&nbsp; ratingup.com.ar &nbsp;·&nbsp; Todos los derechos reservados</p>
+  <div class="wrap footer-inner">
+    <div class="logo">
+      <div class="logo-badge">
+        <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+          <path d="M16 62L40 36L57 52L84 18" stroke="#ff6f4d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M64 18H84V38" stroke="#ff6f4d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="word">Repunte</span>
+      </div>
+    </div>
+    <div class="meta">© 2026 Repunte · repunte.com.ar · Todos los derechos reservados</div>
+  </div>
 </footer>
+
+<script>
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  items.forEach(i=>io.observe(i));
+
+  document.querySelectorAll('input[type="email"]').forEach(function(input){
+    input.addEventListener('invalid', function(){
+      if(this.validity.valueMissing){
+        this.setCustomValidity('Complete este campo.');
+      } else if(this.validity.typeMismatch){
+        this.setCustomValidity('Ingrese un email válido, por ejemplo su@negocio.com.');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+    input.addEventListener('input', function(){
+      this.setCustomValidity('');
+    });
+  });
+</script>
 
 </body>
 </html>
