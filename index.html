@@ -249,6 +249,9 @@
     .signup{ flex-direction: column; }
     .stats-strip{ gap: 18px; }
     nav{ padding: 14px 20px; }
+    .hero-signup-block{ max-width: none !important; }
+    .hero-signup-block .signup-note{ text-align: left !important; }
+    .wa-note{ flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -314,7 +317,7 @@
           <span class="stat">Su negocio, cada vez más cerca de las 5 estrellas</span>
         </div>
 
-        <div style="max-width:440px;">
+        <div class="hero-signup-block" style="max-width:440px;">
           <form id="signup" class="signup" action="https://formspree.io/f/xkolqbvk" method="POST">
             <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
             <button type="submit" class="btn-primary">Avisarme cuando esté lista</button>
