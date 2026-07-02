@@ -79,6 +79,7 @@
     color: var(--ink); font-weight: 400; margin-bottom: 30px;
   }
   .proof-line b{ color: var(--coral); }
+  .proof-line .stat{ font-size: 0.88rem; white-space: nowrap; font-weight: 500; color: var(--ink-soft); }
   .star-base{ fill: #c7cdd0; }
   .star-fill{ fill: var(--coral); }
   .s1, .s2, .s3, .s4{ opacity: 1; }
@@ -169,6 +170,7 @@
   }
   h2{ font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.16; max-width: 620px; margin-bottom: 16px; }
   .section-sub{ color: var(--ink-soft); max-width: 540px; font-size: 1rem; margin-bottom: 52px; }
+  .section-sub b{ color: var(--ink); font-weight: 700; }
 
   /* ---------- PROCESS ---------- */
   .process{ display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
@@ -182,6 +184,15 @@
     transform: translateY(-4px);
     box-shadow: 0 10px 24px rgba(27,46,53,0.10);
   }
+  .wa-note{
+    display:flex; align-items:flex-start; gap:12px;
+    background: var(--teal-dim); border-radius:14px;
+    padding:16px 20px; margin: 28px auto 0; max-width: 680px;
+    text-align:left;
+  }
+  .wa-note svg{ flex-shrink:0; margin-top:2px; }
+  .wa-note p{ font-size:0.88rem; color:var(--ink-soft); line-height:1.5; }
+  .wa-note b{ color:var(--ink); }
   .process-card .step-tag{
     font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
     color: var(--accent-color, var(--teal)); text-transform: uppercase;
@@ -276,9 +287,9 @@
       <div>
         <div class="badge">REPUTACIÓN INTELIGENTE · PRÓXIMAMENTE</div>
         <h1 class="display">Más estrellas en Google.<br>Más <span class="accent">clientes</span> en su negocio.</h1>
-        <p class="hero-sub">Cuando llega una reseña nueva, Repunte le avisa por <b>WhatsApp</b> al instante, con una respuesta ya escrita por IA. Usted solo aprueba.</p>
+        <p class="hero-sub">Una mala reseña sin responder asusta a más clientes que la reseña en sí. <b>Repunte</b> le avisa por WhatsApp apenas aparece, con <b>una respuesta profesional ya escrita por IA</b>, lista para agradecer una buena o resolver una queja antes de que escale. Usted solo aprueba y se publica al instante.</p>
         <div class="proof-line">
-          <svg width="128" height="23" viewBox="0 0 130 22" aria-label="Rating de ejemplo, casi 5 estrellas">
+          <svg width="168" height="30" viewBox="0 0 130 22" aria-label="Rating de ejemplo, casi 5 estrellas">
             <g class="star-slot">
               <path class="star-base" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
               <path class="star-fill s1" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
@@ -300,14 +311,16 @@
               <path class="star-fill s5" d="M115 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4-5.7-3.3-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
             </g>
           </svg>
-          <span>Su negocio, cada vez más cerca de las 5 estrellas</span>
+          <span class="stat">Su negocio, cada vez más cerca de las 5 estrellas</span>
         </div>
 
-        <form id="signup" class="signup" action="https://formspree.io/f/xkolqbvk" method="POST">
-          <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
-          <button type="submit" class="btn-primary">Avíseme cuando esté lista</button>
-        </form>
-        <p class="signup-note"><b>30% OFF</b> primer mes para los primeros 200 negocios · Sin tarjeta</p>
+        <div style="max-width:440px;">
+          <form id="signup" class="signup" action="https://formspree.io/f/xkolqbvk" method="POST">
+            <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
+            <button type="submit" class="btn-primary">Avisarme cuando esté lista</button>
+          </form>
+          <p class="signup-note" style="text-align:center; font-size:0.88rem; font-weight:500;"><b>30% OFF</b> 1er mes para los primeros 200 negocios · Sin tarjeta</p>
+        </div>
       </div>
 
       <div class="phone reveal">
@@ -349,7 +362,7 @@
     <div class="wrap">
       <div class="eyebrow reveal">Cómo funciona</div>
       <h2 class="display reveal">Tres pasos. Todo por WhatsApp.</h2>
-      <p class="section-sub reveal">No hay panel que aprender. Si usa WhatsApp, ya sabe usar Repunte.</p>
+      <p class="section-sub reveal"><b>No hay panel que aprender.</b> Si usa WhatsApp, ya sabe usar Repunte.</p>
 
       <div class="process reveal">
         <div class="process-card c-teal">
@@ -377,7 +390,10 @@
           <p>Lo pega en el mostrador, la mesa o el ticket. Lleva directo a la pantalla de reseña en Google, sin que el cliente tenga que buscar nada.</p>
         </div>
       </div>
-      <p class="section-sub" style="margin-top:28px; margin-bottom:0; font-size:0.88rem;">¿Ya tiene el WhatsApp de sus clientes porque vende por ahí? Podemos automatizar también el envío del pedido de reseña, siempre con su consentimiento previo.</p>
+      <div class="wa-note">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:var(--teal)"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>¿Ya tiene el WhatsApp de sus clientes porque vende por ahí? <b>Podemos automatizar también el envío del pedido de reseña</b>, siempre con su consentimiento previo.</p>
+      </div>
     </div>
   </section>
 
@@ -385,7 +401,7 @@
     <div class="wrap">
       <div class="eyebrow reveal">Además, todos los meses</div>
       <h2 class="display reveal">Un resumen que también le llega por WhatsApp.</h2>
-      <p class="section-sub reveal">No es solo conseguir reseñas. Es entender qué dicen sus clientes.</p>
+      <p class="section-sub reveal">No es solo conseguir reseñas. <b>Es entender qué dicen sus clientes.</b></p>
 
       <div class="feature-grid reveal">
         <div class="feature-card">
@@ -421,9 +437,9 @@
       <div class="cta-form-wrap reveal">
         <form class="signup center" action="https://formspree.io/f/xkolqbvk" method="POST">
           <input type="email" name="email" placeholder="su@negocio.com" required aria-label="Correo electrónico">
-          <button type="submit" class="btn-primary">Avíseme cuando esté lista</button>
+          <button type="submit" class="btn-primary">Avisarme cuando esté lista</button>
         </form>
-        <p class="signup-note"><b>30% off</b> el primer mes · Sin compromiso · Sin tarjeta de crédito</p>
+        <p class="signup-note" style="text-align:center; font-size:0.88rem; font-weight:500;"><b>30% off</b> 1er mes · Sin compromiso · Sin tarjeta de crédito</p>
       </div>
     </div>
   </section>
