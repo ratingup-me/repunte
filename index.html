@@ -732,5 +732,13 @@
   });
 </script>
 
+<script>
+  fetch('https://ropewcsfdypiqivnzqpj.supabase.co/functions/v1/track-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: window.location.pathname, source: 'landing' })
+  }).catch(function(){});
+</script>
+
 </body>
 </html>
