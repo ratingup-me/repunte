@@ -371,7 +371,7 @@
         </svg>
       </div>
     </div>
-    <a href="https://app.repunte.com.ar" class="nav-cta">Probar 5 días gratis</a>
+    <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="nav-cta">Probar 5 días gratis</a>
   </nav>
 </header>
 
@@ -409,7 +409,7 @@
         </div>
 
         <div class="hero-cta-row">
-          <a href="https://app.repunte.com.ar" class="btn-primary btn-link">Comenzar</a>
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="btn-primary btn-link">Comenzar</a>
           <a href="#como-funciona" class="btn-secondary">Cómo funciona</a>
         </div>
         <p class="signup-note" style="font-size:0.8rem; margin-top:10px;"><b>5 días gratis</b> · Sin tarjeta</p>
@@ -538,7 +538,7 @@
             <li><span class="ck ck-teal">✓</span> Hasta 5 respuestas con IA</li>
             <li><span class="ck ck-teal">✓</span> No hace falta tarjeta</li>
           </ul>
-          <a href="https://app.repunte.com.ar" class="plan-btn plan-btn-outline">Empezar prueba gratis</a>
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="plan-btn plan-btn-outline">Empezar prueba gratis</a>
         </div>
 
         <div class="plan-card plan-card-dark">
@@ -552,7 +552,7 @@
             <li><span class="ck ck-coral">✓</span> Soporte directo con nosotros</li>
             <li><span class="ck ck-coral">✓</span> Se paga por MercadoPago, sin contrato</li>
           </ul>
-          <a href="https://app.repunte.com.ar" class="plan-btn plan-btn-solid">Activar plan</a>
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="plan-btn plan-btn-solid">Activar plan</a>
         </div>
       </div>
     </div>
@@ -675,7 +675,7 @@
       <h2 class="display reveal">Tu negocio merece repuntar en Google.</h2>
       <p class="section-sub reveal">Conectá tu negocio real y probá Repunte 5 días sin cargo.</p>
       <div class="cta-form-wrap reveal">
-        <a href="https://app.repunte.com.ar" class="btn-primary btn-link" style="padding:15px 32px; font-size:1rem;">Probar 5 días gratis</a>
+        <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="btn-primary btn-link" style="padding:15px 32px; font-size:1rem;">Probar 5 días gratis</a>
         <p class="signup-note" style="text-align:center; font-size:0.88rem; font-weight:500; margin-top:14px;">Sin compromiso · Sin tarjeta de crédito</p>
       </div>
     </div>
@@ -708,6 +708,14 @@
     <div class="meta">© 2026 Repunte · repunte.com.ar · Todos los derechos reservados</div>
   </div>
 </footer>
+
+<script>
+  // Pausa temporal: la app todavía no está lanzada oficialmente.
+  // Los botones de acceso muestran este aviso en vez de llevar a app.repunte.com.ar
+  function mostrarAvisoPreLanzamiento(){
+    alert('Todavía no lanzamos oficialmente. Muy pronto vas a poder entrar. ¡Gracias por tu interés!');
+  }
+</script>
 
 <script>
   const items = document.querySelectorAll('.reveal');
