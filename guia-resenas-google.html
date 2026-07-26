@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo conseguir más reseñas en Google para tu negocio | Repunte</title>
+<meta name="description" content="Guía práctica para pedir y responder reseñas de Google: cuándo pedirlas, cómo Repunte las pide y responde automáticamente, y qué esperar según estudios de consumo local.">
+<meta property="og:title" content="Cómo conseguir más reseñas en Google para tu negocio | Repunte">
+<meta property="og:description" content="Guía práctica para pedir y responder reseñas de Google, con datos reales de comportamiento del consumidor.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://repunte.com.ar/guia-resenas-google.html">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="512x512">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAF6EE;
+    --surface: #ffffff;
+    --ink: #1b2e35;
+    --ink-soft: #51626a;
+    --ink-faint: #8b9aa0;
+    --teal: #2baf8d;
+    --teal-dim: #e3f5ef;
+    --coral: #ff6f4d;
+    --coral-dim: #ffe9e2;
+    --mustard: #f0a93e;
+    --line: rgba(27,46,53,0.10);
+    --line-strong: rgba(27,46,53,0.16);
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', sans-serif; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  body::before{
+    content:'';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='380' height='380'%3E%3Cpath fill='%23B7AE98' d='M40 14 45.8 32 64.7 32 49.4 43.1 55.3 61 40 49.9 24.7 61 30.6 43.1 15.3 32 34.2 32z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M250 56 253.1 65.7 263.3 65.7 255.1 71.7 258.2 81.3 250 75.3 241.8 81.3 244.9 71.7 236.7 65.7 246.9 65.7z'/%3E%3Cpath fill='%23B7AE98' d='M140 116 147.6 139.5 172.3 139.5 152.4 154 160 177.5 140 163 120 177.5 127.6 154 107.7 139.5 132.4 139.5z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M330 160 334.5 173.8 349 173.8 337.3 182.4 341.8 196.2 330 187.6 318.2 196.2 322.7 182.4 311 173.8 325.5 173.8z'/%3E%3Cpath fill='%23B7AE98' d='M60 244 63.6 255.1 75.2 255.1 65.8 261.9 69.4 272.9 60 266.1 50.6 272.9 54.2 261.9 44.8 255.1 56.4 255.1z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M220 272 226.3 291.3 246.6 291.3 230.2 303.3 236.5 322.7 220 310.7 203.5 322.7 209.8 303.3 193.4 291.3 213.7 291.3z'/%3E%3Cpath fill='%23B7AE98' d='M340 318 342.7 326.3 351.4 326.3 344.4 331.4 347.1 339.7 340 334.6 332.9 339.7 335.6 331.4 328.6 326.3 337.3 326.3z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M120 340 122.2 346.9 129.5 346.9 123.6 351.2 125.9 358.1 120 353.8 114.1 358.1 116.4 351.2 110.5 346.9 117.8 346.9z'/%3E%3C/svg%3E");
+    background-size: 380px 380px;
+  }
+  header, main, footer{ position: relative; z-index: 1; }
+  a{ color: var(--teal); }
+  .display{ font-family: 'Baloo 2', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  header{ background: var(--ink); }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width: 1120px; margin: 0 auto; padding: 14px 28px;
+  }
+  .logo-badge svg{ height: 40px; width: auto; display:block; }
+  .nav-cta{
+    font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600;
+    color:#fff; background: var(--coral); padding:10px 19px;
+    border-radius:999px; text-decoration:none; white-space:nowrap;
+  }
+
+  .article-hero{ padding: 56px 0 20px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.8rem; font-weight:600; color: var(--teal);
+    background: var(--teal-dim); padding:8px 14px; border-radius:999px;
+    margin-bottom: 18px;
+  }
+  h1{ font-size: clamp(1.8rem, 4vw, 2.6rem); line-height:1.15; margin-bottom: 16px; }
+  .lead{ font-size: 1.05rem; color: var(--ink-soft); max-width: 620px; }
+
+  main article{ padding: 8px 0 60px; }
+  h2{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:1.4rem; margin: 40px 0 14px; }
+  h3{ font-size: 1.05rem; font-weight:700; margin: 26px 0 10px; }
+  p{ margin-bottom: 16px; color: var(--ink); }
+  ul{ margin: 0 0 16px 20px; }
+  li{ margin-bottom: 8px; }
+  strong{ color: var(--ink); }
+
+  .stat-row{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin: 24px 0 32px;
+  }
+  .stat-card{
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 16px 14px; text-align:center;
+  }
+  .stat-card{ border: 2px solid var(--coral); }
+  .stat-card.stat-teal{ border-color: var(--teal); }
+  .stat-card.stat-mustard{ border-color: var(--mustard); }
+  .stat-num{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:1.5rem; color: var(--coral); display:block; }
+  .stat-card.stat-teal .stat-num{ color: var(--teal); }
+  .stat-card.stat-mustard .stat-num{ color: #c98a1f; }
+  .stat-label{ font-size:0.78rem; font-weight:700; color: var(--ink); line-height:1.3; margin-top:4px; display:block; }
+  @media (max-width: 560px){ .stat-row{ grid-template-columns: 1fr; } }
+
+  .hl{ font-weight: 700; }
+  .hl-coral{ color: var(--coral); }
+  .hl-teal{ color: var(--teal); }
+  .hl-mustard{ color: #c98a1f; }
+
+  .product-box{
+    background: var(--teal-dim); border-radius: 16px; padding: 22px 24px;
+    margin: 24px 0; border: 1px solid rgba(43,175,141,0.18);
+  }
+  .product-box h3{ margin-top:0; color: var(--ink); }
+  .flow-list{ margin: 14px 0 0 0; list-style:none; }
+  .flow-list li{
+    padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--coral);
+    margin-bottom: 16px;
+  }
+  .flow-list li.auto{ border-left-color: var(--teal); }
+  .flow-list .flow-tag{
+    display:block; font-size:0.72rem; font-weight:700; letter-spacing:0.04em;
+    text-transform:uppercase; color: var(--coral); margin-bottom:4px;
+  }
+  .flow-list li.auto .flow-tag{ color: var(--teal); }
+
+  .template{
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: 14px; padding: 18px 20px; margin: 14px 0;
+    font-size: 0.95rem;
+  }
+  .template .tag{
+    display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:0.04em;
+    text-transform:uppercase; color: var(--coral); margin-bottom:8px;
+  }
+
+  .cta-band{
+    background: var(--ink); border-radius: 20px; padding: 40px 32px;
+    text-align:center; margin: 48px 0 16px;
+  }
+  .cta-band h2{ color:#fff; margin-top:0; }
+  .cta-band p{ color: rgba(255,255,255,0.7); }
+  .btn-primary{
+    display:inline-block; background: var(--coral); color:#fff; border:none;
+    font-family:'Inter',sans-serif; font-weight:600; font-size:0.95rem;
+    padding:14px 28px; border-radius:999px; text-decoration:none; margin-top:6px;
+  }
+
+  footer{ padding: 32px 0; text-align:center; }
+  .meta{ font-size:0.82rem; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="/" class="logo-badge">
+      <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(4,4) scale(1.6)">
+          <path d="M24 2 L44 9 V24 C44 38 34 47 24 50 C14 47 4 38 4 24 V9 Z" fill="none" stroke="#ff6f4d" stroke-width="2.4"/>
+          <g transform="translate(24,26) scale(1.3) translate(-12,-12)" stroke="#ff6f4d" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17 L9 11 L13 15 L21 7"/>
+            <path d="M14 7 L21 7 L21 14"/>
+          </g>
+        </g>
+        <text x="100" y="58" font-family="'Baloo 2',sans-serif" font-weight="800" font-size="46" fill="#ffffff">REPUNTE</text>
+      </svg>
+    </a>
+    <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="nav-cta">Probar 5 días gratis</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="article-hero">
+      <div class="eyebrow">Guía para tu negocio</div>
+      <h1 class="display">Cómo conseguir más reseñas en Google (y cómo Repunte se ocupa de todo el proceso)</h1>
+      <p class="lead">Pocas reseñas nuevas y las viejas sin responder no es un detalle menor: es plata que tu negocio pierde todos los días. Estudios de comportamiento de consumidores muestran justo por qué, y cómo Repunte resuelve cada parte del proceso por vos.</p>
+    </section>
+
+    <article>
+      <p>Casi todos tus clientes potenciales miran las reseñas de Google antes de elegirte: estudios de comportamiento del consumidor ubican esa cifra por encima del 88-97% según el rubro. Y no hace falta tener 5 estrellas perfectas: un negocio con 80 reseñas y 4,2★ suele posicionar mejor en Google Maps que uno con apenas 10 reseñas de 5,0, porque el volumen y la actividad reciente pesan tanto como el promedio.</p>
+
+      <div class="stat-row">
+        <div class="stat-card stat-coral">
+          <span class="stat-num">88-97%</span>
+          <span class="stat-label">de la gente lee reseñas antes de elegir un negocio local</span>
+        </div>
+        <div class="stat-card stat-teal">
+          <span class="stat-num">47%</span>
+          <span class="stat-label">no elige un negocio con menos de 20 reseñas</span>
+        </div>
+        <div class="stat-card stat-mustard">
+          <span class="stat-num">98%</span>
+          <span class="stat-label">de tasa de apertura de un mensaje de WhatsApp, contra ~21% de un email</span>
+        </div>
+      </div>
+
+      <p>Conseguir esto tiene dos partes: <strong>pedir</strong> la reseña y <strong>responderla</strong> rápido. Repunte hace las dos por vos.</p>
+
+      <div class="product-box">
+        <h3>Cómo funciona Repunte, paso a paso</h3>
+        <ul class="flow-list">
+          <li>
+            <span class="flow-tag">Reseñas de 1 a 3 estrellas</span>
+            <span>Te avisamos por WhatsApp al instante con el texto completo y una respuesta ya redactada por IA. Vos tocás <strong>Aprobar</strong> o la editás, y se publica directo en tu Google. Son las que más importan resolver rápido, por eso son las únicas que pasan siempre por vos.</span>
+          </li>
+          <li class="auto">
+            <span class="flow-tag">Reseñas de 4 y 5 estrellas</span>
+            <span>Se responden y publican solas, sin que tengas que hacer nada. Si preferís revisar también las de 4 estrellas antes de que salgan, podés activarlo con un simple check en tu panel ("avisarme también con 4 estrellas").</span>
+          </li>
+          <li class="auto">
+            <span class="flow-tag">Invitar clientes</span>
+            <span>Cargás tu lista de clientes (pegando texto, subiendo una foto que leemos con IA, o uno por uno) y Repunte les manda automáticamente el pedido de reseña por WhatsApp, con el mensaje y el link a tu ficha de Google. Vos no tenés que copiar ni pegar nada.</span>
+          </li>
+        </ul>
+      </div>
+
+      <h2>¿Cuándo pedir la reseña?</h2>
+      <p>El momento importa tanto como el mensaje en sí. Repunte manda el pedido en el momento que vos definas para cada cliente, pero como referencia general, conviene apuntar al pico de satisfacción:</p>
+      <ul>
+        <li><strong>Gastronomía / cafetería:</strong> al momento de pagar o irse, mientras la experiencia está fresca</li>
+        <li><strong>Peluquería / estética:</strong> al terminar el servicio, cuando el cliente ya se vio conforme en el espejo</li>
+        <li><strong>Indumentaria / retail:</strong> después de la compra, o unos días después si fue algo grande</li>
+        <li><strong>Servicios profesionales:</strong> cuando se resolvió el trámite, no antes</li>
+        <li><strong>Gimnasio / estudio:</strong> después de las primeras semanas, cuando ya hay resultado o hábito</li>
+      </ul>
+
+      <h2>Así son los mensajes que Repunte manda por vos</h2>
+      <p>Estos son los mensajes base que se envían automáticamente cuando cargás tu lista de clientes. Los podés personalizar desde tu panel:</p>
+
+      <div class="template">
+        <span class="tag">Mensaje general</span>
+        <p style="margin-bottom:0;">¡Hola [NOMBRE]! Un gusto haberte atendido 🙌 Si te gustó la experiencia, nos ayudaría un montón que nos dejes tu opinión en Google, te toma 30 segundos: [TU LINK DE REPUNTE]</p>
+      </div>
+
+      <div class="template">
+        <span class="tag">Gastronomía</span>
+        <p style="margin-bottom:0;">Hola [NOMBRE], gracias por elegirnos hoy. Esperamos que lo hayas disfrutado 😋 Si tenés un segundo, nos encantaría que nos dejes una reseña en Google: [TU LINK DE REPUNTE]</p>
+      </div>
+
+      <div class="template">
+        <span class="tag">Servicios / trámites</span>
+        <p style="margin-bottom:0;">Hola [NOMBRE], quería confirmarte que [TRÁMITE/SERVICIO] quedó resuelto. Si te sentís cómodo, nos serviría mucho que compartas tu experiencia en Google: [TU LINK DE REPUNTE]. ¡Gracias por confiar en nosotros!</p>
+      </div>
+
+      <p>Además del envío automático, Repunte te genera tu QR y tu link directo a reseñas de Google para tener en el mostrador, la mesa o el ticket: el cliente elige ahí mismo si deja su reseña en Google o te escribe por WhatsApp si prefiere contarte algo antes de publicar.</p>
+
+      <h2>Por qué la velocidad de respuesta importa tanto como pedirla</h2>
+      <p>Estudios sobre expectativas de atención muestran que buena parte de los consumidores espera una respuesta a una reseña negativa dentro de <strong>una semana</strong>, y una porción importante espera <strong>menos de 3 días</strong>. Dejar una queja sin responder durante semanas se lee como desinterés, incluso si después se resuelve. Por eso Repunte prioriza que las reseñas de 1 a 3 estrellas lleguen a tu WhatsApp al instante: cuanto antes respondas, más chances tenés de retener a ese cliente en vez de perderlo.</p>
+
+      <h2>Y en el ranking de Google, también suma</h2>
+      <p>Google usa la actividad de reseñas (volumen, frecuencia y respuesta) como una de las señales para decidir qué negocios muestra primero en búsquedas locales. En Argentina, el posicionamiento local es un trabajo de mediano plazo: la aparición para búsquedas de marca (tu nombre de negocio) suele consolidarse en <strong>2 a 4 meses</strong>, mientras que posicionar para palabras más competitivas de tu rubro y zona puede llevar de <strong>6 a 12 meses</strong>. Tener reseñas nuevas entrando de forma constante, y todas respondidas, es una de las variables que sí podés controlar mientras ese proceso avanza.</p>
+
+      <div class="cta-band">
+        <h2 class="display">Dejá que Repunte pida y responda por vos</h2>
+        <p>Conectá tu negocio real y probá 5 días sin cargo. Sin tarjeta.</p>
+        <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="btn-primary">Probar 5 días gratis</a>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="meta">© 2026 Repunte · repunte.com.ar · Todos los derechos reservados</div>
+</footer>
+
+<script>
+  function mostrarAvisoPreLanzamiento(){
+    alert('Todavía no lanzamos oficialmente. Muy pronto vas a poder entrar. ¡Gracias por tu interés!');
+  }
+</script>
+
+</body>
+</html>
