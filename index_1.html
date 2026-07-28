@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repunte - Gestión de Reseñas de Google con IA para tu negocio</title>
+<meta name="description" content="Repunte gestiona las reseñas de Google de tu negocio: te avisa por WhatsApp cuando llega una reseña negativa, te sugiere la respuesta con IA y la publica cuando la aprobás. Más estrellas, más clientes.">
+<meta property="og:title" content="Repunte - Gestión de Reseñas de Google con IA para tu negocio">
+<meta property="og:description" content="Te avisamos por WhatsApp cuando llega una reseña negativa, te sugerimos la respuesta con IA y la publicamos cuando la aprobás.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://repunte.com.ar/">
+<link rel="canonical" href="https://repunte.com.ar/">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="512x512">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Montserrat:wght@800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAF6EE;
+    --surface: #ffffff;
+    --ink: #1b2e35;
+    --ink-soft: #51626a;
+    --ink-faint: #8b9aa0;
+    --teal: #2baf8d;
+    --teal-dim: #e3f5ef;
+    --coral: #ff6f4d;
+    --coral-dim: #ffe9e2;
+    --mustard: #f0a93e;
+    --line: rgba(27,46,53,0.10);
+    --line-strong: rgba(27,46,53,0.16);
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', sans-serif; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before{
+    content:'';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.14;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='380' height='380'%3E%3Cpath fill='%23B7AE98' d='M40 14 45.8 32 64.7 32 49.4 43.1 55.3 61 40 49.9 24.7 61 30.6 43.1 15.3 32 34.2 32z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M250 56 253.1 65.7 263.3 65.7 255.1 71.7 258.2 81.3 250 75.3 241.8 81.3 244.9 71.7 236.7 65.7 246.9 65.7z'/%3E%3Cpath fill='%23B7AE98' d='M140 116 147.6 139.5 172.3 139.5 152.4 154 160 177.5 140 163 120 177.5 127.6 154 107.7 139.5 132.4 139.5z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M330 160 334.5 173.8 349 173.8 337.3 182.4 341.8 196.2 330 187.6 318.2 196.2 322.7 182.4 311 173.8 325.5 173.8z'/%3E%3Cpath fill='%23B7AE98' d='M60 244 63.6 255.1 75.2 255.1 65.8 261.9 69.4 272.9 60 266.1 50.6 272.9 54.2 261.9 44.8 255.1 56.4 255.1z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M220 272 226.3 291.3 246.6 291.3 230.2 303.3 236.5 322.7 220 310.7 203.5 322.7 209.8 303.3 193.4 291.3 213.7 291.3z'/%3E%3Cpath fill='%23B7AE98' d='M340 318 342.7 326.3 351.4 326.3 344.4 331.4 347.1 339.7 340 334.6 332.9 339.7 335.6 331.4 328.6 326.3 337.3 326.3z'/%3E%3Cpath fill='none' stroke='%23B7AE98' stroke-width='1.6' d='M120 340 122.2 346.9 129.5 346.9 123.6 351.2 125.9 358.1 120 353.8 114.1 358.1 116.4 351.2 110.5 346.9 117.8 346.9z'/%3E%3C/svg%3E");
+    background-size: 380px 380px;
+  }
+  header, main, footer{ position: relative; z-index: 1; }
+  html{ overflow-x: hidden; }
+  ::selection{ background: var(--mustard); color: var(--ink); }
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 4px; }
+
+  .display{ font-family: 'Baloo 2', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  nav{
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; max-width: 1120px; margin: 0 auto;
+  }
+  .logo{ display: flex; align-items: center; gap: 10px; }
+  .logo-mark{ width: 26px; height: 26px; flex-shrink: 0; }
+  .logo-badge{ display: inline-flex; align-items: center; }
+  .logo-badge svg{ height: 82px; width: auto; display: block; }
+  .nav-cta{
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+    color: #fff; background: var(--coral); padding: 10px 19px;
+    border-radius: 999px; text-decoration: none; white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+  .nav-cta:hover{ transform: translateY(-1px); }
+
+  .hero{
+    padding: 76px 0 0;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(560px 420px at 12% -10%, var(--teal-dim) 0%, transparent 65%),
+      radial-gradient(620px 480px at 96% 8%, var(--coral-dim) 0%, transparent 60%),
+      radial-gradient(420px 340px at 78% 92%, rgba(240,169,62,0.16) 0%, transparent 65%);
+  }
+  .hero-inner{ display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; padding-bottom: 64px; position: relative; z-index: 1; }
+
+  .badge{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.8rem; font-weight: 600; color: var(--teal);
+    background: var(--teal-dim); padding: 8px 14px; border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .badge::before{ content:''; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+
+  h1{ font-size: clamp(2.1rem, 4.2vw, 3.2rem); line-height: 1.08; margin-bottom: 20px; }
+  h1 .accent{ color: var(--coral); }
+  .hero-sub{ font-size: 1.05rem; color: var(--ink-soft); max-width: 470px; margin-bottom: 30px; }
+  .hero-sub b{ color: var(--ink); font-weight: 600; }
+
+  .proof-line{
+    display:flex; align-items:center; gap:8px; font-size: 0.95rem;
+    color: var(--ink); font-weight: 400; margin-bottom: 30px; flex-wrap: wrap;
+  }
+  .proof-line b{ color: var(--coral); }
+  .proof-line .stat{ font-size: 0.88rem; font-weight: 500; color: var(--ink-soft); }
+  .star-base{ fill: #c7cdd0; }
+  .star-fill{ fill: var(--coral); opacity: 0; }
+  .s1{ animation: star1Anim 5s ease-in-out infinite; }
+  .s2{ animation: star2Anim 5s ease-in-out infinite; }
+  .s3{ animation: star3Anim 5s ease-in-out infinite; }
+  .s4{ animation: star4Anim 5s ease-in-out infinite; }
+  .s5{ animation: star5Anim 5s ease-in-out infinite; }
+
+  @keyframes star1Anim{
+    0%, 6%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    6.3%{ opacity: 1; filter: drop-shadow(0 0 3px rgba(255,209,102,0.65)); }
+    8%, 88%{ opacity: 1; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    98%, 100%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+  }
+  @keyframes star2Anim{
+    0%, 24%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    24.3%{ opacity: 1; filter: drop-shadow(0 0 3px rgba(255,209,102,0.65)); }
+    26%, 88%{ opacity: 1; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    98%, 100%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+  }
+  @keyframes star3Anim{
+    0%, 42%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    42.3%{ opacity: 1; filter: drop-shadow(0 0 3px rgba(255,209,102,0.65)); }
+    44%, 88%{ opacity: 1; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    98%, 100%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+  }
+  @keyframes star4Anim{
+    0%, 60%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    60.3%{ opacity: 1; filter: drop-shadow(0 0 3px rgba(255,209,102,0.65)); }
+    62%, 88%{ opacity: 1; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    98%, 100%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+  }
+  @keyframes star5Anim{
+    0%, 78%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    78.3%{ opacity: 1; filter: drop-shadow(0 0 3px rgba(255,209,102,0.65)); }
+    80%, 88%{ opacity: 1; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+    98%, 100%{ opacity: 0; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .star-fill{ animation: none; opacity: 1; filter: none; }
+  }
+
+  .signup{ display:flex; gap:10px; max-width: 440px; margin-bottom: 12px; scroll-margin-top: 100px; }
+  .signup input{
+    flex:1; background: var(--surface); border: 1px solid var(--line-strong);
+    color: var(--ink); padding: 14px 18px; border-radius: 999px; font-size: 0.95rem;
+  }
+  .signup input::placeholder{ color: var(--ink-faint); }
+  .signup input:focus{ outline: none; border-color: var(--teal); }
+  .btn-primary{
+    background: var(--coral); color: #fff; border: none;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem;
+    padding: 14px 24px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+    transition: transform 0.15s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-1px); }
+  .signup-note{ font-size: 0.8rem; color: var(--ink-faint); }
+  .signup-note b{ color: var(--teal); }
+
+  .hero-cta-row{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+
+  .floating-badge{
+    position: absolute;
+    top: -18px; right: -14px;
+    z-index: 5;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 14px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 14px 30px -10px rgba(35,33,29,0.4);
+  }
+  .fb-dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal); flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(0,168,150,0.22);
+  }
+  .fb-label{ font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.55); font-weight: 600; }
+  .fb-value{ font-size: 13px; font-weight: 700; }
+  @media (max-width: 640px){
+    .floating-badge{ top: -12px; right: 4px; padding: 8px 12px; }
+    .fb-value{ font-size: 11px; }
+  }
+  .btn-link{ text-decoration:none; display:inline-block; }
+  .btn-secondary{
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.95rem;
+    color: var(--ink); background: transparent; border: 2px solid var(--line-strong);
+    padding: 12px 22px; border-radius: 999px; text-decoration:none; white-space: nowrap;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .btn-secondary:hover{ border-color: var(--teal); transform: translateY(-1px); }
+
+  /* ---------- PHONE MOCKUP (signature element) ---------- */
+  .phone{
+    background: #15201f; border-radius: 34px; padding: 12px;
+    max-width: 320px; margin: 0 auto; box-shadow: 0 18px 40px rgba(27,46,53,0.18);
+  }
+  .phone-screen{ background: #e9efe9; border-radius: 24px; overflow: hidden; }
+  .chat-head{
+    background: var(--ink); color: #fff; padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600;
+  }
+  .chat-head .av{
+    width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center; font-size: 0.8rem;
+  }
+  .chat-head .sub{ font-size: 0.7rem; font-weight: 400; opacity: 0.85; }
+  .chat-body{ padding: 16px 12px; min-height: 320px; display: flex; flex-direction: column; gap: 10px; }
+  .bubble{
+    max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 0.85rem;
+    line-height: 1.55; opacity: 0; animation: bubbleIn 0.5s ease forwards;
+  }
+  .bubble.in{ background: #fff; border-bottom-left-radius: 4px; align-self: flex-start; color: var(--ink); }
+  .bubble.out{ background: var(--coral-dim); border-bottom-right-radius: 4px; align-self: flex-end; color: var(--ink); }
+  .bubble .tag{ display:block; font-family:'IBM Plex Mono',monospace; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-faint); margin-bottom: 5px; }
+  .bubble .stars{ color: var(--mustard); font-weight: 600; }
+  .bubble.b1{ animation-delay: 0.3s; }
+  .bubble.b2{ animation-delay: 1.1s; }
+  .bubble.b3{ animation-delay: 1.9s; }
+  .bubble.b4{ animation-delay: 2.5s; }
+  @keyframes bubbleIn{
+    from{ opacity:0; transform: translateY(8px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bubble{ animation: none; opacity: 1; }
+  }
+  .quick-actions{ display:flex; gap:8px; align-self: flex-start; margin-top: -2px; }
+  .qa-btn{
+    font-size: 0.7rem; font-weight: 600; padding: 6px 11px; border-radius: 999px;
+    border: 1px solid var(--coral); color: var(--coral); background: #fff;
+  }
+  .qa-btn.primary{ background: var(--coral); color: #fff; border-color: var(--coral); }
+
+  /* ---------- STATS STRIP ---------- */
+  .stats-strip{
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    padding: 22px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: var(--ink);
+  }
+  .stats-strip .item{ font-size: 0.86rem; color: #fff; font-weight: 600; }
+  .stats-strip .item b{ color: var(--coral); }
+
+  section{ position: relative; }
+  .section-pad{ padding: 92px 0; }
+  .eyebrow{
+    font-size: 1.05rem; font-weight: 600; color: var(--coral); margin-bottom: 14px;
+  }
+  h2{ font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.16; max-width: 620px; margin-bottom: 16px; }
+  .eyebrow{ text-align: center; }
+  .eyebrow-wrap, .section-pad .wrap > .eyebrow, .section-pad .wrap > h2.display, .section-pad .wrap > .section-sub{
+    text-align: center; margin-left: auto; margin-right: auto;
+  }
+  .section-sub{ color: var(--ink-soft); max-width: 540px; font-size: 1rem; margin: 0 auto 52px; }
+  .section-sub b{ color: var(--ink); font-weight: 700; }
+
+  /* ---------- PROCESS ---------- */
+  .process{ display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .process-card{
+    background: var(--surface); border-radius: 20px; padding: 30px 24px 26px;
+    border: 2px solid var(--accent-color, var(--teal));
+    box-shadow: 0 4px 16px rgba(27,46,53,0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .process-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(27,46,53,0.10);
+  }
+  .wa-note{
+    display:flex; align-items:flex-start; gap:12px;
+    background: var(--teal-dim); border-radius:14px;
+    padding:16px 20px; margin: 28px auto 0; max-width: 680px;
+    text-align:left;
+  }
+  .wa-note svg{ flex-shrink:0; margin-top:2px; }
+  .wa-note p{ font-size:0.88rem; color:var(--ink-soft); line-height:1.5; }
+  .wa-note b{ color:var(--ink); }
+  .process-card .step-tag{
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--accent-color, var(--teal)); text-transform: uppercase;
+    margin-bottom: 12px; display: block;
+  }
+  .process-card .step-icon{
+    width: 46px; height: 46px; border-radius: 13px; background: var(--accent-dim, var(--teal-dim));
+    color: var(--accent-color, var(--teal)); display:flex; align-items:center; justify-content:center;
+    margin-bottom: 16px;
+  }
+  .process-card h3{ font-family:'Baloo 2',sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+  .process-card p{ color: var(--ink-soft); font-size: 0.89rem; font-weight: 500; }
+  .c-teal{ --accent-color: var(--teal); --accent-dim: var(--teal-dim); }
+  .c-coral{ --accent-color: var(--coral); --accent-dim: var(--coral-dim); }
+  .c-mustard{ --accent-color: #b9791f; --accent-dim: #fbeed4; }
+
+  /* ---------- FEATURE GRID ---------- */
+  .feature-grid{ display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .feature-card{
+    background: var(--surface); border-radius: 20px; padding: 26px 24px;
+    border: 2px solid var(--accent-color, var(--coral));
+  }
+  .feature-card .ic{
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-dim, var(--coral-dim));
+    color: var(--accent-color, var(--coral)); display:flex; align-items:center; justify-content:center; margin-bottom: 16px;
+  }
+  .feature-card h3{ font-family:'Baloo 2',sans-serif; font-weight: 700; font-size: 1.02rem; margin-bottom: 8px; }
+  .feature-card p{ color: var(--ink-soft); font-size: 0.88rem; font-weight: 500; }
+
+  /* ---------- CTA ---------- */
+  .cta-band{ background: var(--ink); color: #fff; }
+  .cta-inner{ text-align:center; max-width: 600px; margin: 0 auto; }
+  .cta-band h2{ color: #fff; max-width: none; margin: 0 auto 14px; }
+  .cta-band .section-sub{ color: rgba(255,255,255,0.68); margin: 0 auto 34px; }
+  .cta-band .eyebrow{ color: var(--mustard); }
+  .signup.center{ margin: 0 auto; }
+  .cta-band .signup input{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff; }
+  .cta-band .signup input::placeholder{ color: rgba(255,255,255,0.45); }
+  .cta-form-wrap{ display:flex; flex-direction: column; align-items:center; gap: 12px; }
+  .cta-band .signup-note{ color: rgba(255,255,255,0.55); }
+
+  footer{ padding: 30px 0; border-top: 1px solid var(--line); background: #d2dedc; }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+  footer .meta{ font-size: 0.8rem; color: var(--ink-faint); }
+  .footer-links a{
+    display:inline-flex; align-items:center;
+    font-size: 0.85rem; font-weight: 600; color: var(--coral);
+    border: 1.5px solid var(--coral); padding: 8px 16px; border-radius: 999px;
+    text-decoration: none; transition: background 0.15s ease;
+  }
+  .footer-links a:hover{ background: var(--coral-dim); }
+
+  @media (max-width: 640px){
+    .footer-inner{ flex-direction: column; text-align: center; gap: 16px; }
+    .footer-inner .logo-badge svg{ height: 38px; }
+  }
+
+  .reveal{ opacity:0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+
+  @media (max-width: 880px){
+    .hero-inner{ grid-template-columns: 1fr; }
+    .process{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .signup{ flex-direction: column; }
+    .stats-strip{ gap: 18px; }
+    nav{ padding: 14px 20px; }
+    .logo-badge svg{ height: 50px; }
+    .nav-cta{ padding: 9px 14px; font-size: 0.78rem; }
+    .hero-signup-block{ max-width: none !important; }
+    .hero-signup-block .signup-note{ text-align: left !important; }
+    .wa-note{ flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <div class="logo-badge">
+        <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .word{ font-family:'Baloo 2','Poppins',sans-serif; font-weight:800; letter-spacing:0.3px; }
+            </style>
+          </defs>
+          <g transform="translate(4,4) scale(1.6)">
+            <path d="M24 2 L44 9 V24 C44 38 34 47 24 50 C14 47 4 38 4 24 V9 Z"
+                  fill="none" stroke="#ff6f4d" stroke-width="2.4"/>
+            <g transform="translate(24,26) scale(1.3) translate(-12,-12)" stroke="#ff6f4d" stroke-width="2.4"
+               fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 17 L9 11 L13 15 L21 7"/>
+              <path d="M14 7 L21 7 L21 14"/>
+            </g>
+          </g>
+          <text x="100" y="58" class="word" font-size="46" fill="#f7f7f2">REPUNTE</text>
+        </svg>
+      </div>
+    </div>
+    <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="nav-cta">Probar 5 días gratis</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="badge">Para tu negocio, respuestas con IA en minutos</div>
+        <h1 class="display">Pocas reseñas nuevas. Las viejas, sin responder o mal respondidas. Tu negocio <span class="accent">pierde clientes</span> todos los días.</h1>
+        <p class="hero-sub">Repunte te ayuda a conseguir más reseñas y responde cada una con IA en minutos, siempre con la respuesta justa. <b>Repunte</b> te avisa apenas aparece una reseña, con <b>una respuesta profesional ya escrita por IA</b>, lista para agradecer una buena o resolver una queja antes de que escale. Vos solo aprobás y se publica al instante.</p>
+        <div class="proof-line">
+          <svg width="168" height="30" viewBox="0 0 130 22" aria-label="Rating de ejemplo, casi 5 estrellas">
+            <g class="star-slot">
+              <path class="star-base" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
+              <path class="star-fill s1" d="M11 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L11 14.3 5.3 17.6l1.3-6.4L1.8 6.7 8.3 6z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M37 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L37 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s2" d="M37 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L37 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M63 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L63 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s3" d="M63 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L63 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M89 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L89 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s4" d="M89 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4L89 14.3l-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+            <g class="star-slot">
+              <path class="star-base" d="M115 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4-5.7-3.3-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+              <path class="star-fill s5" d="M115 0l2.7 6 6.5.7-4.8 4.5 1.3 6.4-5.7-3.3-5.7 3.3 1.3-6.4-4.8-4.5 6.5-.7z"/>
+            </g>
+          </svg>
+          <span class="stat">Los negocios que responden reseñas tienen muchas más chances de ser elegidos</span>
+        </div>
+
+        <div class="hero-cta-row">
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="btn-primary btn-link">Comenzar</a>
+          <a href="#como-funciona" class="btn-secondary">Cómo funciona</a>
+        </div>
+        <p class="signup-note" style="font-size:0.8rem; margin-top:10px;"><b>5 días gratis</b> · Sin tarjeta</p>
+      </div>
+
+      <div class="phone reveal">
+        <div class="phone-screen">
+          <div class="chat-head">
+            <div class="av">R</div>
+            <div>
+              Repunte
+              <div class="sub">Alertas de reputación</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="bubble in b1">
+              <span class="tag">NUEVA RESEÑA · GOOGLE</span>
+              <span class="stars">★★☆☆☆</span> "La atención tardó bastante hoy, esperé 20 min..."
+            </div>
+            <div class="bubble out b2">
+              <span class="tag">RESPUESTA SUGERIDA POR IA</span>
+              "¡Hola! Gracias por contarnos, lamentamos la demora. Ya estamos reforzando el equipo en hora pico. Esperamos contar con tu visita nuevamente 🙌"
+            </div>
+            <div class="quick-actions bubble b3">
+              <span class="qa-btn primary">Aprobar</span>
+              <span class="qa-btn">Editar</span>
+            </div>
+            <div class="bubble in b4">✅ Publicada en Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-strip">
+    <span class="item"><b>90%</b> de los clientes revisa Google antes de elegir</span>
+    <span class="item"><b>60 días</b> promedio para subir de estrella</span>
+    <span class="item"><b>$19.000</b> ARS/mes · sin contrato</span>
+  </div>
+
+  <section class="section-pad" id="como-funciona">
+    <div class="wrap">
+      <div class="eyebrow reveal">Cómo funciona</div>
+      <h2 class="display reveal">Tres pasos. Así de simple.</h2>
+      <p class="section-sub reveal"><b>No hay panel que aprender.</b> Si usás WhatsApp, ya sabés usar Repunte.</p>
+
+      <div class="process reveal">
+        <div class="process-card c-teal">
+          <span class="step-tag">Paso 01</span>
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Te avisamos al instante</h3>
+          <p>Cuando llega una reseña negativa, te mandamos un WhatsApp con el texto y una respuesta ya redactada por IA. Las de 4 y 5 estrellas se responden y publican solas.</p>
+        </div>
+        <div class="process-card c-teal">
+          <span class="step-tag">Paso 02</span>
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Vos aprobás</h3>
+          <p>Tocá "Aprobar" o editá la respuesta. Se publica directo en tu ficha de Google, sin entrar a ningún lado.</p>
+        </div>
+        <div class="process-card c-teal">
+          <span class="step-tag">Paso 03</span>
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor"/></svg>
+          </div>
+          <h3>Te damos un QR</h3>
+          <p>Lo pegás en el mostrador, la mesa o el ticket. El cliente elige: deja su reseña en Google o te escribe directo por WhatsApp si prefiere contarte algo antes. La opción es siempre suya, no del sistema.</p>
+        </div>
+      </div>
+      <div class="wa-note">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:var(--teal)"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 6l8 7 8-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>¿Ya tenés los mails de tus clientes porque vendés por ahí? <b>Podemos automatizar también el envío del pedido de reseña por mail</b>, sin costo extra, en cualquier plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad" style="padding-top:0;">
+    <div class="wrap">
+      <div class="eyebrow reveal">Además, todos los meses</div>
+      <h2 class="display reveal">Un resumen que también te llega por WhatsApp.</h2>
+      <p class="section-sub reveal">No es solo conseguir reseñas. <b>Es entender qué dicen tus clientes.</b></p>
+
+      <div class="feature-grid reveal">
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 10L13.5 14L21 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Resumen mensual</h3>
+          <p>Mirá cómo evolucionó tu rating y cuántas reseñas te faltan para subir de estrella.</p>
+        </div>
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6V12C4 17 7.5 21 12 22C16.5 21 20 17 20 12V6L12 2Z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <h3>Detección de patrones</h3>
+          <p>Identificamos qué temas se repiten en las quejas para que decidas con datos reales.</p>
+        </div>
+        <div class="feature-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7V12L15 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Resultados en 60 días</h3>
+          <p>El sistema trabaja solo. En dos meses vas a ver la diferencia en tu nota y en tus clientes nuevos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad" id="planes" style="padding-top:0;">
+    <div class="wrap">
+      <div class="eyebrow reveal">Precio simple</div>
+      <h2 class="display reveal">Un solo plan. Empezás gratis.</h2>
+      <p class="section-sub reveal">Sin niveles confusos ni upsells. <b>Probás 5 días sin cargo</b> y, cuando esté listo, pasás a plan activo con todo desbloqueado.</p>
+
+      <div class="plan-cards reveal">
+        <div class="plan-card plan-card-light">
+          <span class="plan-tag">Empezás acá</span>
+          <h3>Prueba gratis</h3>
+          <div class="plan-price">5 días <span>sin cargo</span></div>
+          <ul class="plan-list">
+            <li><span class="ck ck-teal">✓</span> Conectar tu negocio real</li>
+            <li><span class="ck ck-teal">✓</span> Panel, QR y alertas sin límite</li>
+            <li><span class="ck ck-teal">✓</span> Hasta 5 respuestas con IA</li>
+            <li><span class="ck ck-teal">✓</span> No hace falta tarjeta</li>
+          </ul>
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="plan-btn plan-btn-outline">Empezar prueba gratis</a>
+        </div>
+
+        <div class="plan-card plan-card-dark">
+          <span class="plan-tag plan-tag-active">Cuando esté listo</span>
+          <h3>Plan activo</h3>
+          <div class="plan-price">$19.000 <span>ARS/mes</span></div>
+          <ul class="plan-list">
+            <li><span class="ck ck-coral">✓</span> Todo lo incluido en la Prueba</li>
+            <li><span class="ck ck-coral">✓</span> Respuestas con IA sin límite</li>
+            <li><span class="ck ck-coral">✓</span> Resumen mensual y detección de patrones</li>
+            <li><span class="ck ck-coral">✓</span> Soporte directo con nosotros</li>
+            <li><span class="ck ck-coral">✓</span> Se paga por MercadoPago, sin contrato</li>
+          </ul>
+          <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="plan-btn plan-btn-solid">Activar plan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .plan-cards{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; max-width: 760px; margin: 0 auto; }
+    .plan-card{
+      border-radius: 22px;
+      padding: 32px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+    .plan-card-light{
+      background: var(--surface);
+      border: 1.5px solid var(--line-strong);
+    }
+    .plan-card-dark{
+      background: var(--ink);
+      color: #fff;
+    }
+    .plan-tag{
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--teal); display:block; margin-bottom: 14px;
+    }
+    .plan-tag-active{ color: var(--coral); }
+    .plan-card h3{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size: 1.35rem; margin-bottom: 10px; }
+    .plan-card-dark h3{ color: #fff; }
+    .plan-price{ font-size: 1.9rem; font-weight: 700; margin-bottom: 22px; font-family:'Baloo 2',sans-serif; }
+    .plan-price span{ font-size: 0.8rem; font-weight: 500; color: var(--ink-faint); font-family:'Inter',sans-serif; margin-left: 4px; }
+    .plan-card-dark .plan-price span{ color: rgba(255,255,255,0.5); }
+    .plan-list{ list-style:none; margin: 0 0 28px; padding:0; display:flex; flex-direction:column; gap:13px; flex-grow: 1; }
+    .plan-list li{ display:flex; align-items:flex-start; gap:10px; font-size: 0.9rem; font-weight: 500; }
+    .plan-card-light .plan-list li{ color: var(--ink-soft); }
+    .plan-card-dark .plan-list li{ color: rgba(255,255,255,0.82); }
+    .ck{
+      display:inline-flex; align-items:center; justify-content:center;
+      width: 18px; height: 18px; border-radius: 50%; font-size: 11px; font-weight: 700;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .ck-teal{ background: var(--teal); color: var(--teal-dim); }
+    .ck-coral{ background: var(--coral); color: #fff; }
+
+    .plan-btn{
+      display:inline-block; text-align:center; width:100%; padding: 13px 0;
+      border-radius: 999px; font-weight:700; font-size:0.88rem; text-decoration:none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box; border-width: 2px; border-style: solid; border-color: transparent;
+      line-height: 1.2;
+    }
+    .plan-btn:hover{ transform: translateY(-2px); }
+    .plan-btn-outline{ border: 2px solid var(--teal); color: var(--teal); background: transparent; }
+    .plan-btn-outline:hover{ background: var(--teal-dim); }
+    .plan-btn-solid{ background: var(--coral); color: #fff; }
+    .plan-btn-solid:hover{ box-shadow: 0 10px 24px -6px rgba(255,111,77,0.5); }
+    @media (max-width: 640px){
+      .plan-cards{ grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <section class="photo-section reveal">
+    <div class="photo-inner">
+      <div class="photo-copy">
+        <div class="eyebrow" style="text-align:left;">Para cualquier rubro</div>
+        <h2 class="display" style="text-align:left; margin-left:0;">Preparado para que cada reseña trabaje a favor de tu negocio.</h2>
+        <p class="section-sub" style="text-align:left; margin-left:0;">No importa el rubro: si tu negocio tiene ficha de Google, Repunte te cuida la reputación mientras vos atendés a tus clientes.</p>
+      </div>
+      <div class="photo-visual">
+        <div class="floating-badge">
+          <span class="fb-dot"></span>
+          <div>
+            <div class="fb-label">Este mes</div>
+            <div class="fb-value">4.9 ★ de rating</div>
+          </div>
+        </div>
+        <img src="https://images.pexels.com/photos/8422729/pexels-photo-8422729.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Dueño de comercio con brazos cruzados en su tienda" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .photo-section{
+      background: var(--ink);
+      padding: 72px 0;
+      overflow: hidden;
+    }
+    .photo-inner{
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+    }
+    .photo-copy{ display:flex; flex-direction: column; align-items: center; }
+    .photo-section .eyebrow{ color: var(--mustard); text-align: center; }
+    .photo-section h2{ color: #fff; max-width: 460px; text-align: center; }
+    .photo-section .section-sub{ color: rgba(255,255,255,0.65); max-width: 420px; text-align: center; margin: 0 auto; }
+    .photo-visual{
+      position: relative;
+      aspect-ratio: 4/3;
+      max-width: 320px;
+      width: 100%;
+    }
+    .photo-visual img{ width: 100%; height: 100%; object-fit: cover; display:block; filter: saturate(0.92) sepia(0.08) contrast(1.02); border-radius: 20px; }
+    .photo-visual .floating-badge{ top: -20px; right: -20px; bottom: auto; z-index: 5; }
+    @media (min-width: 700px){
+      .photo-inner{ grid-template-columns: 1fr 320px; gap: 48px; text-align: left; justify-items: start; }
+      .photo-copy{ align-items: flex-start; }
+      .photo-section h2, .photo-section .section-sub{ text-align: left; margin: 0; }
+    }
+  </style>
+
+  <section class="cta-band section-pad">
+    <div class="wrap cta-inner">
+      <div class="eyebrow reveal">Empezá hoy</div>
+      <h2 class="display reveal">Tu negocio merece repuntar en Google.</h2>
+      <p class="section-sub reveal">Conectá tu negocio real y probá Repunte 5 días sin cargo.</p>
+      <div class="cta-form-wrap reveal">
+        <a href="#" onclick="mostrarAvisoPreLanzamiento(); return false;" class="btn-primary btn-link" style="padding:15px 32px; font-size:1rem;">Probar 5 días gratis</a>
+        <p class="signup-note" style="text-align:center; font-size:0.88rem; font-weight:500; margin-top:14px;">Sin compromiso · Sin tarjeta de crédito</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="logo">
+      <div class="logo-badge">
+        <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .word{ font-family:'Baloo 2','Poppins',sans-serif; font-weight:800; letter-spacing:0.3px; }
+            </style>
+          </defs>
+          <g transform="translate(4,4) scale(1.6)">
+            <path d="M24 2 L44 9 V24 C44 38 34 47 24 50 C14 47 4 38 4 24 V9 Z"
+                  fill="none" stroke="#ff6f4d" stroke-width="2.4"/>
+            <g transform="translate(24,26) scale(1.3) translate(-12,-12)" stroke="#ff6f4d" stroke-width="2.4"
+               fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 17 L9 11 L13 15 L21 7"/>
+              <path d="M14 7 L21 7 L21 14"/>
+            </g>
+          </g>
+          <text x="100" y="58" class="word" font-size="46" fill="#1b2e35">REPUNTE</text>
+        </svg>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="guia-resenas-google.html">Guía para tu negocio</a>
+    </div>
+    <div class="meta">© 2026 Repunte · repunte.com.ar · Todos los derechos reservados</div>
+  </div>
+</footer>
+
+<script>
+  // Pausa temporal: la app todavía no está lanzada oficialmente.
+  // Los botones de acceso muestran este aviso en vez de llevar a app.repunte.com.ar
+  function mostrarAvisoPreLanzamiento(){
+    alert('Todavía no lanzamos oficialmente. Muy pronto vas a poder entrar. ¡Gracias por tu interés!');
+  }
+</script>
+
+<script>
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  items.forEach(i=>io.observe(i));
+
+  document.querySelectorAll('input[type="email"]').forEach(function(input){
+    input.addEventListener('invalid', function(){
+      if(this.validity.valueMissing){
+        this.setCustomValidity('Complete este campo.');
+      } else if(this.validity.typeMismatch){
+        this.setCustomValidity('Ingresá un email válido, por ejemplo tu@negocio.com.');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+    input.addEventListener('input', function(){
+      this.setCustomValidity('');
+    });
+  });
+</script>
+
+<script>
+  fetch('https://ropewcsfdypiqivnzqpj.supabase.co/functions/v1/track-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: window.location.pathname, source: 'landing' })
+  }).catch(function(){});
+</script>
+
+</body>
+</html>
