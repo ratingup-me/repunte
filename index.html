@@ -465,7 +465,7 @@
   <div class="stats-strip">
     <span class="item"><b>90%</b> de los clientes revisa Google antes de elegir</span>
     <span class="item"><b>60 días</b> promedio para subir de estrella</span>
-    <span class="item"><b>$25.000</b> ARS/mes · sin contrato</span>
+    <span class="item"><b id="precio-mensual-1">$25.000</b> ARS/mes · sin contrato</span>
   </div>
 
   <section class="section-pad" id="como-funciona">
@@ -603,7 +603,7 @@
         <div class="plan-card plan-card-dark">
           <span class="plan-tag plan-tag-active">Cuando esté listo</span>
           <h3>Plan activo</h3>
-          <div class="plan-price">$25.000 <span>ARS/mes</span></div>
+          <div class="plan-price"><span id="precio-mensual-2">$25.000</span> <span>ARS/mes</span></div>
           <ul class="plan-list">
             <li><span class="ck ck-coral">✓</span> Todo lo incluido en la Prueba</li>
             <li><span class="ck ck-coral">✓</span> Respuestas con IA sin límite</li>
@@ -810,5 +810,34 @@
   }).catch(function(){});
 </script>
 
+<script>
+  // Repunte · precio sincronizado con precio_historial (vía Edge Function
+  // pública precio-publico), para no tener que editar este HTML a mano
+  // cada vez que cambia el precio desde el panel de admin.
+  (function () {
+    var SUPABASE_URL = 'https://ropewcsfdypiqivnzqpj.supabase.co';
+    var SUPABASE_ANON_KEY = 'PEGAR_ACA_LA_ANON_KEY_REAL';
+
+    fetch(SUPABASE_URL + '/functions/v1/precio-publico', {
+      headers: {
+        Authorization: 'Bearer ' + SUPABASE_ANON_KEY,
+        apikey: SUPABASE_ANON_KEY,
+      },
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data || !data.precio) return;
+        var texto = '$' + Number(data.precio).toLocaleString('es-AR');
+        var el1 = document.getElementById('precio-mensual-1');
+        var el2 = document.getElementById('precio-mensual-2');
+        if (el1) el1.textContent = texto;
+        if (el2) el2.textContent = texto;
+      })
+      .catch(function (err) {
+        // Si falla, se queda con el precio que ya está escrito acá abajo.
+        console.error('No se pudo actualizar el precio dinámico:', err);
+      });
+  })();
+</script>
 </body>
 </html>
