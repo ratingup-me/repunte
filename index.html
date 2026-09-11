@@ -607,7 +607,7 @@
         <div class="plan-card plan-card-dark">
           <span class="plan-tag plan-tag-active">Cuando esté listo</span>
           <h3>Plan activo</h3>
-          <div class="plan-price precio-oculto" id="stat-plan-precio"><span id="precio-mensual-2"></span><span>/mes</span></div>
+          <div class="plan-price precio-oculto" id="stat-plan-precio"><span id="precio-mensual-2"></span><span class="precio-unidad">/mes</span></div>
           <ul class="plan-list">
             <li><span class="ck ck-coral">✓</span> Todo lo incluido en la Prueba</li>
             <li><span class="ck ck-coral">✓</span> Respuestas con IA sin límite</li>
@@ -650,10 +650,14 @@
 
     /* Precio del plan activo: igual de grande/negrita que en Inductoria
        ("$100/mes"), a diferencia del resto de .plan-price (ej. "3 días
-       sin cargo" de la Prueba gratis, que sigue con el tamaño chico). */
-    #stat-plan-precio{ font-size: clamp(2.6rem, 6vw, 3.75rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.01em; }
-    #stat-plan-precio span{ font-size: 1.05rem; font-weight: 600; margin-left: 4px; vertical-align: text-bottom; color: var(--ink-faint); }
-    .plan-card-dark #stat-plan-precio span{ color: rgba(255,255,255,0.55); }
+       sin cargo" de la Prueba gratis, que sigue con el tamaño chico).
+       Van directo sobre los ids del número y la unidad (no sobre el div
+       contenedor) porque ".plan-price span" ya le pega a cualquier span
+       adentro, número incluido, y gana por ser una regla explícita sobre
+       el elemento (una regla heredada del div nunca le gana a una regla
+       explícita, sin importar la especificidad). */
+    #precio-mensual-2{ font-size: clamp(2.6rem, 6vw, 3.75rem); font-weight: 800; font-family: 'Baloo 2', sans-serif; letter-spacing: -0.01em; color: #fff; }
+    #stat-plan-precio .precio-unidad{ font-size: 1.05rem; font-weight: 600; margin-left: 4px; vertical-align: text-bottom; color: rgba(255,255,255,0.55); }
     .plan-list{ list-style:none; margin: 0 0 28px; padding:0; display:flex; flex-direction:column; gap:13px; flex-grow: 1; }
     .plan-list li{ display:flex; align-items:flex-start; gap:10px; font-size: 0.9rem; font-weight: 500; }
     .plan-card-light .plan-list li{ color: var(--ink-soft); }
