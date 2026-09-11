@@ -254,6 +254,10 @@
   .stats-strip .item{ font-size: 0.86rem; color: #fff; font-weight: 600; }
   .stats-strip .item b{ color: var(--coral); }
 
+  /* Se muestran recién cuando llega el precio real desde precio-actual,
+     para no mostrar primero un monto viejo y después el correcto. */
+  .precio-oculto{ visibility: hidden; }
+
   section{ position: relative; }
   .section-pad{ padding: 92px 0; }
   .eyebrow{
@@ -465,7 +469,7 @@
   <div class="stats-strip">
     <span class="item"><b>90%</b> de los clientes revisa Google antes de elegir</span>
     <span class="item"><b>60 días</b> promedio para subir de estrella</span>
-    <span class="item"><b id="precio-mensual-1">$25.000</b> ARS/mes · sin contrato</span>
+    <span class="item precio-oculto" id="stat-precio"><b id="precio-mensual-1"></b> ARS/mes · sin contrato</span>
   </div>
 
   <section class="section-pad" id="como-funciona">
@@ -603,7 +607,7 @@
         <div class="plan-card plan-card-dark">
           <span class="plan-tag plan-tag-active">Cuando esté listo</span>
           <h3>Plan activo</h3>
-          <div class="plan-price"><span id="precio-mensual-2">$25.000</span> <span>ARS/mes</span></div>
+          <div class="plan-price precio-oculto" id="stat-plan-precio"><span id="precio-mensual-2"></span> <span>ARS/mes</span></div>
           <ul class="plan-list">
             <li><span class="ck ck-coral">✓</span> Todo lo incluido en la Prueba</li>
             <li><span class="ck ck-coral">✓</span> Respuestas con IA sin límite</li>
@@ -825,19 +829,28 @@
   (function () {
     var SUPABASE_URL = 'https://ropewcsfdypiqivnzqpj.supabase.co';
 
+    // Los dos contenedores del precio arrancan ocultos (clase
+    // "precio-oculto", ver <style>) para que nunca se vea un monto viejo
+    // ni un instante antes de que llegue el real.
+    var statPrecio = document.getElementById('stat-precio');
+    var planPrecio = document.getElementById('stat-plan-precio');
+
     fetch(SUPABASE_URL + '/functions/v1/precio-actual')
       .then(function (res) { return res.ok ? res.json() : null; })
       .then(function (data) {
-        if (!data || data.precio == null) return;
+        if (!data || data.precio == null) throw new Error('precio-actual sin precio');
         var texto = '$' + Number(data.precio).toLocaleString('es-AR');
         var el1 = document.getElementById('precio-mensual-1');
         var el2 = document.getElementById('precio-mensual-2');
         if (el1) el1.textContent = texto;
         if (el2) el2.textContent = texto;
+        if (statPrecio) statPrecio.classList.remove('precio-oculto');
+        if (planPrecio) planPrecio.classList.remove('precio-oculto');
       })
       .catch(function (err) {
-        // Si falla, se queda con el precio que ya está escrito acá abajo.
-        console.error('No se pudo actualizar el precio dinámico:', err);
+        // No hay precio confiable para mostrar: mejor dejarlo oculto que
+        // arriesgarse a mostrar un monto viejo o incorrecto.
+        console.error('No se pudo cargar el precio vigente:', err);
       });
   })();
 </script>
