@@ -607,7 +607,7 @@
         <div class="plan-card plan-card-dark">
           <span class="plan-tag plan-tag-active">Cuando esté listo</span>
           <h3>Plan activo</h3>
-          <div class="plan-price precio-oculto" id="stat-plan-precio"><span id="precio-mensual-2"></span> <span>ARS/mes</span></div>
+          <div class="plan-price precio-oculto" id="stat-plan-precio"><span id="precio-mensual-2"></span><span>/mes</span></div>
           <ul class="plan-list">
             <li><span class="ck ck-coral">✓</span> Todo lo incluido en la Prueba</li>
             <li><span class="ck ck-coral">✓</span> Respuestas con IA sin límite</li>
@@ -644,9 +644,16 @@
     .plan-tag-active{ color: var(--coral); }
     .plan-card h3{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size: 1.35rem; margin-bottom: 10px; }
     .plan-card-dark h3{ color: #fff; }
-    .plan-price{ font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 700; margin-bottom: 22px; font-family:'Baloo 2',sans-serif; line-height: 1; }
-    .plan-price span{ font-size: 0.95rem; font-weight: 500; color: var(--ink-faint); font-family:'Inter',sans-serif; margin-left: 6px; }
+    .plan-price{ font-size: 1.9rem; font-weight: 700; margin-bottom: 22px; font-family:'Baloo 2',sans-serif; }
+    .plan-price span{ font-size: 0.8rem; font-weight: 500; color: var(--ink-faint); font-family:'Inter',sans-serif; margin-left: 4px; }
     .plan-card-dark .plan-price span{ color: rgba(255,255,255,0.5); }
+
+    /* Precio del plan activo: igual de grande/negrita que en Inductoria
+       ("$100/mes"), a diferencia del resto de .plan-price (ej. "3 días
+       sin cargo" de la Prueba gratis, que sigue con el tamaño chico). */
+    #stat-plan-precio{ font-size: clamp(2.6rem, 6vw, 3.75rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.01em; }
+    #stat-plan-precio span{ font-size: 1.05rem; font-weight: 600; margin-left: 4px; vertical-align: text-bottom; color: var(--ink-faint); }
+    .plan-card-dark #stat-plan-precio span{ color: rgba(255,255,255,0.55); }
     .plan-list{ list-style:none; margin: 0 0 28px; padding:0; display:flex; flex-direction:column; gap:13px; flex-grow: 1; }
     .plan-list li{ display:flex; align-items:flex-start; gap:10px; font-size: 0.9rem; font-weight: 500; }
     .plan-card-light .plan-list li{ color: var(--ink-soft); }
